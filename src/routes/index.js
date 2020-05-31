@@ -1,5 +1,6 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+import Route from './Route';
 
 import SignIn from '../pages/SignIn';
 import Profile from '../pages/Profile';
@@ -12,8 +13,10 @@ export default function Routes() {
       <Route path="/" exact component={SignIn} />
       <Route path="/register" component={SignUp} />
 
-      <Route path="/home" component={Home} />
-      <Route path="/profile" component={Profile} />
+      <Route path="/home" component={Home} isPrivate />
+      <Route path="/profile" component={Profile} isPrivate />
+
+      <Route path="/" component={() => <h1>404 - Seu lugar é no museu</h1>} />
     </Switch>
   );
 }
