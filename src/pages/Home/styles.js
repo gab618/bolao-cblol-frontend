@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.div`
   max-width: 600px;
@@ -23,9 +24,24 @@ export const Container = styled.div`
   }
   ul {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-gap: 15px;
     margin-top: 30px;
+  }
+
+  button {
+    margin: 15px 0 0;
+    height: 44px;
+    background: rgb(31, 101, 119);
+    font-weight: bold;
+    color: rgb(220, 218, 212);
+    border: 0;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: background 0.2s;
+    &:hover {
+      background: ${darken(0.04, 'rgb(31, 101, 119)')};
+    }
   }
 `;
 
@@ -35,6 +51,8 @@ export const Match = styled.li`
   padding: 20px;
   background-color: #2c3036;
   color: #fff;
+
+  opacity: ${(props) => (props.past ? 0.4 : 1)};
 
   strong {
     display: block;

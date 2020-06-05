@@ -18,7 +18,7 @@ export default function Home() {
       </header>
 
       <ul>
-        <Match>
+        <Match past>
           <strong>13h</strong>
           <div className="teams">
             <div className="team">
@@ -99,6 +99,7 @@ export default function Home() {
           </div>
         </Match>
       </ul>
+      <button type="button">Apostar!</button>
     </Container>
   );
 }
