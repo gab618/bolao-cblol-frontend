@@ -10,15 +10,20 @@ import { store } from '../store';
 export default function RouteWrapper({
   component: Component,
   isPrivate,
+  adminPage,
   ...rest
 }) {
-  const { signed } = store.getState().auth;
+  const { signed, isAdmin } = store.getState().auth;
 
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
   }
 
   if (signed && !isPrivate) {
+    return <Redirect to="/home" />;
+  }
+
+  if (!isAdmin && adminPage) {
     return <Redirect to="/home" />;
   }
 
@@ -37,10 +42,12 @@ export default function RouteWrapper({
 }
 RouteWrapper.propTypes = {
   isPrivate: PropTypes.bool,
+  adminPage: PropTypes.bool,
   component: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
     .isRequired,
 };
 
 RouteWrapper.defaultProps = {
   isPrivate: false,
+  adminPage: false,
 };

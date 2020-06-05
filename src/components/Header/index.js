@@ -11,11 +11,14 @@ function Header() {
     <Container>
       <Content>
         <nav>
-          <img src={logo} height={32} alt="Bolao CBLOL" />
+          <Link to="/home">
+            <img src={logo} height={32} alt="Bolao CBLOL" />
+          </Link>
           <Link to="/home">BOLÃO CBLOL</Link>
         </nav>
 
         <aside>
+          <Link to="/Leaderboard">Placar</Link>
           <Profile>
             <div>
               <strong>{profile.name}</strong>
