@@ -34,6 +34,12 @@ export const Content = styled.div`
     display: flex;
     align-items: center;
   }
+  a {
+    display: block;
+    margin-top: 2px;
+    font-size: 14px;
+    color: rgb(197, 193, 185);
+  }
 `;
 
 export const Profile = styled.div`
