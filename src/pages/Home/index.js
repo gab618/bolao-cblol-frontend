@@ -39,12 +39,8 @@ export default function Home() {
           const past = isAfter(new Date(), parseISO(m.start_time));
           const start_hour = { start_hour: getHours(parseISO(m.start_time)) };
           const bet = bets.filter((b) => b.match_id === m.id);
-          return Object.assign(
-            m,
-            start_hour,
-            { choice: bet[0].choice },
-            { past }
-          );
+          const choice = bet[0] ? bet[0].choice : null;
+          return Object.assign(m, start_hour, { choice }, { past });
         });
         setRound(
           Object.assign(responseSchedule.data, { Matches: formatedMatches })
