@@ -15,8 +15,10 @@ import api from '../../services/api';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    minWidth: 400,
+    background: '#fff',
   },
+  drawerPaper: { background: '#2c3036' },
 });
 
 export default function Leaderboard() {
