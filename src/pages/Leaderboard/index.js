@@ -57,7 +57,7 @@ export default function Leaderboard() {
             {users.map((row) => (
               <TableRow key={row.id}>
                 <TableCell align="center">
-                  <Avatar alt={row.name} src={row.avatar.url} />
+                  <Avatar alt={row.name} src={row.avatar && row.avatar.url} />
                 </TableCell>
                 <TableCell align="left">{row.name}</TableCell>
                 <TableCell align="right">{row.points}</TableCell>
