@@ -29,6 +29,12 @@ export const Container = styled.div`
     margin-top: 30px;
   }
 
+  span {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 5px;
+  }
+
   button {
     margin: 15px 0 0;
     height: 44px;
