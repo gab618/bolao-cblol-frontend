@@ -92,8 +92,6 @@ function Admin() {
     }
   }
 
-
-
   return (
     <>
       <h4>Team</h4>
@@ -170,7 +168,7 @@ function Admin() {
       {matches.map((t) => (
         <p key={t.id}>
           {t.id}:{t.winner}:blue[{t.blue.id}:{t.blue.code}]:red[
-          {t.red.id}:{t.red.code}]:round[{t.round.name}] ===> {t.start_time}
+          {t.red.id}:{t.red.code}]:round[{t.round.name}] === {t.start_time}
         </p>
       ))}
       <br />
