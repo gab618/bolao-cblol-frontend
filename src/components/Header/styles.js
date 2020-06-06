@@ -27,6 +27,7 @@ export const Content = styled.div`
     a {
       font-weight: bold;
       color: #fff;
+      margin-left: 15px;
     }
   }
 
@@ -68,5 +69,12 @@ export const Profile = styled.div`
     height: 40px;
     width: 40px;
     border-radius: 50%;
+  }
+`;
+
+export const Admin = styled.div`
+  a {
+    color: #000;
+    margin-right: 30px;
   }
 `;
