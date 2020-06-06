@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { darken } from 'polished';
 
 export const Container = styled.div`
   max-width: 600px;
@@ -33,21 +32,6 @@ export const Container = styled.div`
     font-size: 24px;
     text-align: center;
     margin-top: 5px;
-  }
-
-  button {
-    margin: 15px 0 0;
-    height: 44px;
-    background: rgb(31, 101, 119);
-    font-weight: bold;
-    color: rgb(220, 218, 212);
-    border: 0;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: background 0.2s;
-    &:hover {
-      background: ${darken(0.04, 'rgb(31, 101, 119)')};
-    }
   }
 `;
 

@@ -4,6 +4,9 @@ export const Container = styled.div`
   background: #000;
   padding: 0 30px;
   border-bottom: 1px solid rgb(87, 95, 104);
+  @media screen and (max-width: 480px) {
+    padding: 0 10px;
+  }
 `;
 
 export const Content = styled.div`
@@ -22,12 +25,19 @@ export const Content = styled.div`
       margin-right: 20px;
       padding-right: 20px;
       border-right: 1px solid rgb(87, 95, 104);
+      @media screen and (max-width: 480px) {
+        margin-right: 5px;
+        padding-right: 5px;
+      }
     }
 
     a {
       font-weight: bold;
       color: #fff;
       margin-left: 15px;
+      @media screen and (max-width: 480px) {
+        margin-left: 0px;
+      }
     }
   }
 
@@ -38,14 +48,17 @@ export const Content = styled.div`
   a {
     display: block;
     margin-top: 2px;
+    margin-right: 20px;
     font-size: 14px;
     color: rgb(197, 193, 185);
+    @media screen and (max-width: 480px) {
+      margin-right: 10px;
+    }
   }
 `;
 
 export const Profile = styled.div`
   display: flex;
-  margin-left: 20px;
   padding-left: 20px;
   border-left: 1px solid rgb(87, 95, 104);
 
@@ -69,12 +82,5 @@ export const Profile = styled.div`
     height: 40px;
     width: 40px;
     border-radius: 50%;
-  }
-`;
-
-export const Admin = styled.div`
-  a {
-    color: #000;
-    margin-right: 30px;
   }
 `;
