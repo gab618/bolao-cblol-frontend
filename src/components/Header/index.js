@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { Container, Content, Profile, Admin } from './styles';
+import { Container, Content, Profile } from './styles';
 import logo from '../../assets/logo.png';
 
 function Header() {
@@ -18,9 +18,6 @@ function Header() {
         </nav>
 
         <aside>
-          <Admin>
-            <Link to="/admin">Admin</Link>
-          </Admin>
           <Link to="/leaderboard">Placar</Link>
           <Profile>
             <div>

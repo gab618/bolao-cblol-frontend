@@ -71,10 +71,3 @@ export const Profile = styled.div`
     border-radius: 50%;
   }
 `;
-
-export const Admin = styled.div`
-  a {
-    color: #000;
-    margin-right: 30px;
-  }
-`;

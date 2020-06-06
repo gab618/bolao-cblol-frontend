@@ -34,21 +34,6 @@ export const Container = styled.div`
     text-align: center;
     margin-top: 5px;
   }
-
-  button {
-    margin: 15px 0 0;
-    height: 44px;
-    background: rgb(31, 101, 119);
-    font-weight: bold;
-    color: rgb(220, 218, 212);
-    border: 0;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: background 0.2s;
-    &:hover {
-      background: ${darken(0.04, 'rgb(31, 101, 119)')};
-    }
-  }
 `;
 
 export const Match = styled.li`
