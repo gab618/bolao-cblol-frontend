@@ -15,19 +15,46 @@ export default function RouteWrapper({
 }) {
   const { signed, isAdmin } = store.getState().auth;
 
+  const Layout = signed ? DefaultLayout : AuthLayout;
+
   if (!signed && isPrivate) {
-    return <Redirect to="/" />;
+    return (
+      <Route
+        {...rest}
+        render={(props) => (
+          <Layout>
+            <Redirect {...props} to="/" />
+          </Layout>
+        )}
+      />
+    );
   }
 
   if (signed && !isPrivate) {
-    return <Redirect to="/home" />;
+    return (
+      <Route
+        {...rest}
+        render={(props) => (
+          <Layout>
+            <Redirect {...props} to="/home" />
+          </Layout>
+        )}
+      />
+    );
   }
 
   if (!isAdmin && adminPage) {
-    return <Redirect to="/home" />;
+    return (
+      <Route
+        {...rest}
+        render={(props) => (
+          <Layout>
+            <Redirect {...props} to="/home" />
+          </Layout>
+        )}
+      />
+    );
   }
-
-  const Layout = signed ? DefaultLayout : AuthLayout;
 
   return (
     <Route
