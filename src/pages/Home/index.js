@@ -9,12 +9,13 @@ import {
   isAfter,
 } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import { MdChevronLeft, MdChevronRight, MdStar } from 'react-icons/md';
+import Chip from '@material-ui/core/Chip';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import api from '../../services/api';
 
-import { Container, Match } from './styles';
+import { Container, Match, Team } from './styles';
 
 export default function Home() {
   const [date, setDate] = useState(new Date());
@@ -45,6 +46,7 @@ export default function Home() {
         setRound(
           Object.assign(responseSchedule.data, { Matches: formatedMatches })
         );
+        console.log(round);
       }
       setRound(responseSchedule.data);
     }
@@ -93,7 +95,8 @@ export default function Home() {
               <Match key={m.id} past={m.past}>
                 <strong>{m.start_hour}h</strong>
                 <RadioGroup row className="teams">
-                  <div className="team">
+                  <Team winner={m.blue.id === m.winner}>
+                    <MdStar size={14} className="chip" />
                     <img src={m.blue.image} alt={m.blue.name} />
                     <span>{m.blue.code}</span>
                     <Radio
@@ -102,9 +105,10 @@ export default function Home() {
                       value={m.blue.id}
                       name="radio-button-demo"
                     />
-                  </div>
+                  </Team>
                   X
-                  <div className="team">
+                  <Team winner={m.red.id === m.winner}>
+                    <MdStar size={14} className="chip" />
                     <img src={m.red.image} alt={m.red.name} />
                     <span>{m.red.code}</span>
                     <Radio
@@ -113,7 +117,7 @@ export default function Home() {
                       value={m.red.id}
                       name="radio-button-demo"
                     />
-                  </div>
+                  </Team>
                 </RadioGroup>
               </Match>
             ))
