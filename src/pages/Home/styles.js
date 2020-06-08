@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   max-width: 600px;
@@ -55,22 +55,33 @@ export const Match = styled.li`
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+`;
 
-    .team {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
+export const Team = styled.div`
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 
-      img {
-        display: block;
-        height: 64px;
-        padding-bottom: 5px;
-        border-bottom: 1px solid rgb(87, 95, 104);
-      }
+  .chip {
+    position: absolute;
+    background: rgb(245, 0, 87);
+    border-radius: 50%;
+    top: -20px;
+    right: 22px;
+    width: 14px;
+    height: 14px;
+    visibility: ${(props) => (props.winner ? 'visible' : 'hidden')};
+  }
+  img {
+    display: block;
+    height: 64px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb(87, 95, 104);
+  }
 
-      span {
-        margin-top: 5px;
-      }
-    }
+  span {
+    margin-top: 5px;
   }
 `;
