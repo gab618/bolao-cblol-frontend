@@ -46,7 +46,6 @@ export default function Home() {
         setRound(
           Object.assign(responseSchedule.data, { Matches: formatedMatches })
         );
-        console.log(round);
       }
       setRound(responseSchedule.data);
     }
