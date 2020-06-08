@@ -6,11 +6,11 @@ import {
   addDays,
   getHours,
   parseISO,
+  startOfDay,
   isAfter,
 } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { MdChevronLeft, MdChevronRight, MdStar } from 'react-icons/md';
-import Chip from '@material-ui/core/Chip';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import api from '../../services/api';
@@ -21,13 +21,20 @@ export default function Home() {
   const [date, setDate] = useState(new Date());
   const [bets, setBets] = useState([]);
   const [round, setRound] = useState({});
+  const [allRoundsDates, setAllRoundsDates] = useState([]);
 
   async function loadBets() {
     const responseBets = await api.get('bets');
     setBets(responseBets.data);
   }
   useEffect(() => {
+    async function loadAllRoundsDates() {
+      const response = await api.get('rounds');
+      const dates = response.data.map((r) => parseISO(r.start_time));
+      setAllRoundsDates(dates);
+    }
     loadBets();
+    loadAllRoundsDates();
   }, []);
 
   useEffect(() => {
@@ -51,6 +58,20 @@ export default function Home() {
     }
     loadRound();
   }, [date, bets]);
+
+  useEffect(() => {
+    function setValidDay() {
+      if (allRoundsDates.length > 0) {
+        const roundDay = allRoundsDates.find((d) => d > startOfDay(new Date()));
+        if (roundDay) {
+          setDate(roundDay);
+        } else {
+          setDate(allRoundsDates[allRoundsDates.length - 1]);
+        }
+      }
+    }
+    setValidDay();
+  }, [allRoundsDates]);
 
   const dateFormatted = useMemo(
     () => format(date, "d 'de' MMMM", { locale: pt }),
