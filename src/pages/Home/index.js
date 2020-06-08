@@ -1,18 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import {
-  format,
-  subDays,
-  addDays,
-  getHours,
-  parseISO,
-  startOfDay,
-  isAfter,
-} from 'date-fns';
+import { format, getHours, parseISO, startOfDay, isAfter } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import { MdChevronLeft, MdChevronRight, MdStar } from 'react-icons/md';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import api from '../../services/api';
 
 import { Container, Match, Team } from './styles';
@@ -38,6 +31,20 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    function setValidDay() {
+      if (allRoundsDates.length > 0) {
+        const roundDay = allRoundsDates.find((d) => d > startOfDay(new Date()));
+        if (roundDay) {
+          setDate(roundDay);
+        } else {
+          setDate(allRoundsDates[allRoundsDates.length - 1]);
+        }
+      }
+    }
+    setValidDay();
+  }, [allRoundsDates]);
+
+  useEffect(() => {
     async function loadRound() {
       const responseSchedule = await api.get('schedule', {
         params: { date },
@@ -59,20 +66,6 @@ export default function Home() {
     loadRound();
   }, [date, bets]);
 
-  useEffect(() => {
-    function setValidDay() {
-      if (allRoundsDates.length > 0) {
-        const roundDay = allRoundsDates.find((d) => d > startOfDay(new Date()));
-        if (roundDay) {
-          setDate(roundDay);
-        } else {
-          setDate(allRoundsDates[allRoundsDates.length - 1]);
-        }
-      }
-    }
-    setValidDay();
-  }, [allRoundsDates]);
-
   const dateFormatted = useMemo(
     () => format(date, "d 'de' MMMM", { locale: pt }),
     [date]
@@ -91,10 +84,16 @@ export default function Home() {
     bet();
   }
   function handlePrevDay() {
-    setDate(subDays(date, 1));
+    const index = allRoundsDates.indexOf(date);
+    if (index !== 0) {
+      setDate(allRoundsDates[index - 1]);
+    }
   }
   function handleNextDay() {
-    setDate(addDays(date, 1));
+    const index = allRoundsDates.indexOf(date);
+    if (index !== allRoundsDates.length - 1) {
+      setDate(allRoundsDates[index + 1]);
+    }
   }
   return (
     <Container>
@@ -110,38 +109,40 @@ export default function Home() {
       <span>{!!round && !!round.name ? round.name : ''}</span>
 
       <ul>
-        {!!round && !!round.Matches
-          ? round.Matches.map((m) => (
-              <Match key={m.id} past={m.past}>
-                <strong>{m.start_hour}h</strong>
-                <RadioGroup row className="teams">
-                  <Team winner={m.blue.id === m.winner}>
-                    <MdStar size={14} className="chip" />
-                    <img src={m.blue.image} alt={m.blue.name} />
-                    <span>{m.blue.code}</span>
-                    <Radio
-                      checked={m.blue.id === m.choice}
-                      onChange={() => handleChange(m.id, m.blue.id)}
-                      value={m.blue.id}
-                      name="radio-button-demo"
-                    />
-                  </Team>
-                  X
-                  <Team winner={m.red.id === m.winner}>
-                    <MdStar size={14} className="chip" />
-                    <img src={m.red.image} alt={m.red.name} />
-                    <span>{m.red.code}</span>
-                    <Radio
-                      checked={m.red.id === m.choice}
-                      onChange={() => handleChange(m.id, m.red.id)}
-                      value={m.red.id}
-                      name="radio-button-demo"
-                    />
-                  </Team>
-                </RadioGroup>
-              </Match>
-            ))
-          : 'Sem jogos nesse dia :('}
+        {!!round && !!round.Matches ? (
+          round.Matches.map((m) => (
+            <Match key={m.id} past={m.past}>
+              <strong>{m.start_hour}h</strong>
+              <RadioGroup row className="teams">
+                <Team winner={m.blue.id === m.winner}>
+                  <MdStar size={14} className="chip" />
+                  <img src={m.blue.image} alt={m.blue.name} />
+                  <span>{m.blue.code}</span>
+                  <Radio
+                    checked={m.blue.id === m.choice}
+                    onChange={() => handleChange(m.id, m.blue.id)}
+                    value={m.blue.id}
+                    name="radio-button-demo"
+                  />
+                </Team>
+                X
+                <Team winner={m.red.id === m.winner}>
+                  <MdStar size={14} className="chip" />
+                  <img src={m.red.image} alt={m.red.name} />
+                  <span>{m.red.code}</span>
+                  <Radio
+                    checked={m.red.id === m.choice}
+                    onChange={() => handleChange(m.id, m.red.id)}
+                    value={m.red.id}
+                    name="radio-button-demo"
+                  />
+                </Team>
+              </RadioGroup>
+            </Match>
+          ))
+        ) : (
+          <CircularProgress color="secondary" />
+        )}
       </ul>
     </Container>
   );
