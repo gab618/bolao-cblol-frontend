@@ -72,7 +72,7 @@ export const Profile = styled.div`
     }
 
     a {
-      display: block;
+      width: 100%;
       margin-top: 2px;
       font-size: 12px;
       color: rgb(197, 193, 185);

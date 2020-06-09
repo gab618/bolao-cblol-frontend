@@ -86,6 +86,15 @@ function Admin() {
   async function handleUpdateLeaderboard(data) {
     try {
       await api.put(`result/${data.id}`);
+      toast.success('round alterado');
+    } catch (err) {
+      toast.error('error');
+    }
+  }
+
+  async function handleUpdatePoints() {
+    try {
+      await api.put('points');
       toast.success('placar alterado');
     } catch (err) {
       toast.error('error');
@@ -176,7 +185,10 @@ function Admin() {
       <h4>Result</h4>
       <Form onSubmit={handleUpdateLeaderboard}>
         <Input name="id" placeholder="id" />
-        <button type="submit">atualizar placar</button>
+        <button type="submit">atualizar round</button>
+      </Form>
+      <Form onSubmit={handleUpdatePoints}>
+        <button type="submit">atualizar pontos</button>
       </Form>
     </>
   );
