@@ -106,7 +106,7 @@ export default function Home() {
           <MdChevronRight size={36} color="#FFF" />
         </button>
       </header>
-      <span>{!!round && !!round.name ? round.name : ''}</span>
+      <span>{!!round && !!round.name ? round.name : 'Carregando...'}</span>
 
       <ul>
         {!!round && !!round.Matches ? (
@@ -141,7 +141,9 @@ export default function Home() {
             </Match>
           ))
         ) : (
-          <CircularProgress color="secondary" />
+          <li className="loading">
+            <CircularProgress color="secondary" size={64} />
+          </li>
         )}
       </ul>
     </Container>
