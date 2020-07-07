@@ -33,6 +33,11 @@ export const Container = styled.div`
     text-align: center;
     margin-top: 5px;
   }
+
+  .loading {
+    margin: 30px auto;
+    grid-column: 1/3;
+  }
 `;
 
 export const Match = styled.li`
