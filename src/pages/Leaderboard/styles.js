@@ -11,7 +11,6 @@ export const Wrapper = styled.div`
     font-weight: bold;
     text-align: center;
     font-size: 24px;
-    margin-bottom: 15px;
   }
 
   th {
@@ -31,8 +30,14 @@ export const Wrapper = styled.div`
     border-bottom: 1px solid rgb(87, 95, 104);
   }
 
+  table {
+    height: 70vh;
+  }
+
   .MuiPaper-root {
+    margin-top: 15px;
     background-color: #2c3036;
+    height: 75vh;
   }
 
   .MuiTablePagination-selectIcon {
@@ -41,5 +46,25 @@ export const Wrapper = styled.div`
 
   .MuiTablePagination-menuItem {
     color: #000;
+  }
+
+  .MuiChip-label {
+    font-size: 12px !important;
+    display: flex;
+    align-self: center;
+  }
+
+  .MuiAvatar-root {
+    height: 64px;
+    width: 64px;
+  }
+
+  .MuiFormControlLabel-root {
+    color: #fff;
+  }
+
+  .MuiFormGroup-root {
+    margin-left: 20px;
+    margin-top: 8px;
   }
 `;

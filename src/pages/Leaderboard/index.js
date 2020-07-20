@@ -12,13 +12,19 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Badge from '@material-ui/core/Badge';
+import Switch from '@material-ui/core/Switch';
 import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import {
   MdFirstPage,
   MdKeyboardArrowLeft,
   MdKeyboardArrowRight,
   MdLastPage,
+  MdMic as CasterIcon,
 } from 'react-icons/md';
 import { Wrapper } from './styles';
 import api from '../../services/api';
@@ -112,15 +118,37 @@ const useStyles2 = makeStyles({
     minWidth: 360,
     margin: 'auto',
   },
+  caster: {
+    border: '2px solid transparent',
+    borderRadius: '50%',
+    backgroundImage:
+      'linear-gradient(white, white), linear-gradient(#FF3030, #EE2C2C, #CD2626, #8B1A1A)',
+    backgroundOrigin: 'border-box',
+    backgroundClip: 'content-box, border-box',
+  },
+  casterIconBG: {
+    width: 22,
+    height: 22,
+    borderRadius: 15,
+    background: 'black',
+  },
+  casterIcon: {
+    fontSize: 'large',
+    color: '#f50057',
+    cursor: 'pointer',
+  },
 });
 
 export default function Leaderboard() {
   const profile = useSelector((state) => state.user.profile);
   const classes = useStyles2();
   const [users, setUsers] = useState([]);
+  const [usersWithCasters, setUsersWithCasters] = useState([]);
+  const [usersWithoutCasters, setUsersWithoutCasters] = useState([]);
   const [points, setPoints] = useState('');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [castersChecked, setCastersChecked] = React.useState(true);
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage);
@@ -134,10 +162,26 @@ export default function Leaderboard() {
     setPage(0);
   };
 
+  function handleSwitcherCasters() {
+    console.log('FRITA');
+    setCastersChecked((prev) => !prev);
+    if (castersChecked) {
+      setUsers(usersWithoutCasters);
+    } else {
+      setUsers(usersWithCasters);
+    }
+  }
+
   useEffect(() => {
     async function getUsers() {
       const response = await api.get('users');
       setUsers(response.data);
+      setUsersWithCasters(response.data);
+      setUsersWithoutCasters(
+        response.data.filter((u) => {
+          return !u.is_caster;
+        })
+      );
     }
     async function getPoints() {
       const response = await api.get(`users/${profile.id}`);
@@ -150,6 +194,7 @@ export default function Leaderboard() {
   return (
     <Wrapper>
       <span>Sua pontuação: {points}</span>
+
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="leaderboard table">
           <TableHead>
@@ -168,11 +213,34 @@ export default function Leaderboard() {
               : users
             ).map((row) => (
               <TableRow key={row.id}>
-                <TableCell align="center">
-                  <Avatar alt={row.name} src={row.avatar && row.avatar.url} />
+                <TableCell align="left">
+                  {row.is_caster ? (
+                    <Badge
+                      overlap="circle"
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                      }}
+                      badgeContent={
+                        <Tooltip title="Caster" placement="right" arrow>
+                          <span className={classes.casterIconBG}>
+                            <CasterIcon className={classes.casterIcon} />
+                          </span>
+                        </Tooltip>
+                      }
+                    >
+                      <Avatar
+                        alt={row.name}
+                        className={classes.caster}
+                        src={row.avatar && row.avatar.url}
+                      />
+                    </Badge>
+                  ) : (
+                    <Avatar alt={row.name} src={row.avatar && row.avatar.url} />
+                  )}
                 </TableCell>
                 <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="right">{row.points}</TableCell>
+                <TableCell align="right">{row.points} </TableCell>
               </TableRow>
             ))}
             {emptyRows > 0 && (
@@ -181,8 +249,24 @@ export default function Leaderboard() {
               </TableRow>
             )}
           </TableBody>
+
           <TableFooter>
             <TableRow>
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      name="listLasters"
+                      color="secondary"
+                      label="Caster"
+                      checked={castersChecked}
+                      onChange={() => handleSwitcherCasters()}
+                    />
+                  }
+                  label="Casters"
+                />
+              </FormGroup>
+
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                 colSpan={3}
