@@ -13,12 +13,14 @@ import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import {
   MdFirstPage,
   MdKeyboardArrowLeft,
   MdKeyboardArrowRight,
   MdLastPage,
+  MdMic as CasterIcon,
 } from 'react-icons/md';
 import { Wrapper } from './styles';
 import api from '../../services/api';
@@ -150,6 +152,7 @@ export default function Leaderboard() {
   return (
     <Wrapper>
       <span>Sua pontuação: {points}</span>
+
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="leaderboard table">
           <TableHead>
@@ -171,8 +174,17 @@ export default function Leaderboard() {
                 <TableCell align="center">
                   <Avatar alt={row.name} src={row.avatar && row.avatar.url} />
                 </TableCell>
-                <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="right">{row.points}</TableCell>
+                <TableCell align="left">
+                  {row.name}{' '}
+                  {row.is_caster ? (
+                    <Tooltip title="Caster" color="secondary">
+                      <IconButton aria-label="caster">
+                        <CasterIcon />
+                      </IconButton>
+                    </Tooltip>
+                  ) : null}
+                </TableCell>
+                <TableCell align="right">{row.points} </TableCell>
               </TableRow>
             ))}
             {emptyRows > 0 && (
@@ -181,6 +193,7 @@ export default function Leaderboard() {
               </TableRow>
             )}
           </TableBody>
+
           <TableFooter>
             <TableRow>
               <TablePagination

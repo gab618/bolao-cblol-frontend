@@ -11,7 +11,6 @@ export const Wrapper = styled.div`
     font-weight: bold;
     text-align: center;
     font-size: 24px;
-    margin-bottom: 15px;
   }
 
   th {
@@ -32,6 +31,7 @@ export const Wrapper = styled.div`
   }
 
   .MuiPaper-root {
+    margin-top: 15px;
     background-color: #2c3036;
   }
 
@@ -41,5 +41,11 @@ export const Wrapper = styled.div`
 
   .MuiTablePagination-menuItem {
     color: #000;
+  }
+
+  .MuiChip-label {
+    font-size: 12px !important;
+    display: flex;
+    align-self: center;
   }
 `;
