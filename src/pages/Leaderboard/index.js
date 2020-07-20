@@ -12,6 +12,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Icon from '@material-ui/core/Icon';
+import Badge from '@material-ui/core/Badge';
+import Switch from '@material-ui/core/Switch';
 import Paper from '@material-ui/core/Paper';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
@@ -114,6 +119,25 @@ const useStyles2 = makeStyles({
     minWidth: 360,
     margin: 'auto',
   },
+  caster: {
+    border: '2px solid transparent',
+    borderRadius: '50%',
+    backgroundImage:
+      'linear-gradient(white, white), linear-gradient(#FF3030, #EE2C2C, #CD2626, #8B1A1A)',
+    backgroundOrigin: 'border-box',
+    backgroundClip: 'content-box, border-box',
+  },
+  casterIconBG: {
+    width: 22,
+    height: 22,
+    borderRadius: 15,
+    background: 'black',
+  },
+  casterIcon: {
+    fontSize: 'large',
+    color: '#f50057',
+    cursor: 'pointer',
+  },
 });
 
 export default function Leaderboard() {
@@ -171,19 +195,33 @@ export default function Leaderboard() {
               : users
             ).map((row) => (
               <TableRow key={row.id}>
-                <TableCell align="center">
-                  <Avatar alt={row.name} src={row.avatar && row.avatar.url} />
-                </TableCell>
                 <TableCell align="left">
-                  {row.name}{' '}
                   {row.is_caster ? (
-                    <Tooltip title="Caster" color="secondary">
-                      <IconButton aria-label="caster">
-                        <CasterIcon />
-                      </IconButton>
-                    </Tooltip>
-                  ) : null}
+                    <Badge
+                      overlap="circle"
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                      }}
+                      badgeContent={
+                        <Tooltip title="Caster" placement="right" arrow>
+                          <span className={classes.casterIconBG}>
+                            <CasterIcon className={classes.casterIcon} />
+                          </span>
+                        </Tooltip>
+                      }
+                    >
+                      <Avatar
+                        alt={row.name}
+                        className={classes.caster}
+                        src={row.avatar && row.avatar.url}
+                      />
+                    </Badge>
+                  ) : (
+                    <Avatar alt={row.name} src={row.avatar && row.avatar.url} />
+                  )}
                 </TableCell>
+                <TableCell align="left">{row.name}</TableCell>
                 <TableCell align="right">{row.points} </TableCell>
               </TableRow>
             ))}
@@ -196,6 +234,15 @@ export default function Leaderboard() {
 
           <TableFooter>
             <TableRow>
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Switch name="checkedB" color="secondary" label="Primary" />
+                  }
+                  label="Canalha"
+                />
+              </FormGroup>
+
               <TablePagination
                 rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                 colSpan={3}

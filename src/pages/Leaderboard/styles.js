@@ -30,9 +30,14 @@ export const Wrapper = styled.div`
     border-bottom: 1px solid rgb(87, 95, 104);
   }
 
+  table {
+    height: 70vh;
+  }
+
   .MuiPaper-root {
     margin-top: 15px;
     background-color: #2c3036;
+    height: 75vh;
   }
 
   .MuiTablePagination-selectIcon {
@@ -47,5 +52,10 @@ export const Wrapper = styled.div`
     font-size: 12px !important;
     display: flex;
     align-self: center;
+  }
+
+  .MuiAvatar-root {
+    height: 64px;
+    width: 64px;
   }
 `;
