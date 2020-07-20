@@ -58,4 +58,13 @@ export const Wrapper = styled.div`
     height: 64px;
     width: 64px;
   }
+
+  .MuiFormControlLabel-root {
+    color: #fff;
+  }
+
+  .MuiFormGroup-root {
+    margin-left: 20px;
+    margin-top: 8px;
+  }
 `;
