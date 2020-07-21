@@ -31,13 +31,15 @@ export const Wrapper = styled.div`
   }
 
   table {
-    height: 70vh;
+    height: calc(100vh - 200px);
+    max-height: 600px;
   }
 
   .MuiPaper-root {
     margin-top: 15px;
     background-color: #2c3036;
-    height: 75vh;
+    height: calc(100vh - 200px);
+    max-height: 600px;
   }
 
   .MuiTablePagination-selectIcon {
@@ -55,8 +57,8 @@ export const Wrapper = styled.div`
   }
 
   .MuiAvatar-root {
-    height: 64px;
-    width: 64px;
+    min-height: 64px;
+    min-width: 64px;
   }
 
   .MuiFormControlLabel-root {

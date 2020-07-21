@@ -3,22 +3,25 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Badge from '@material-ui/core/Badge';
-import Switch from '@material-ui/core/Switch';
-import Paper from '@material-ui/core/Paper';
-import Tooltip from '@material-ui/core/Tooltip';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  Avatar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableFooter,
+  TablePagination,
+  FormGroup,
+  FormControlLabel,
+  Badge,
+  Switch,
+  Paper,
+  Tooltip,
+  IconButton,
+} from '@material-ui/core';
+
 import {
   MdFirstPage,
   MdKeyboardArrowLeft,
@@ -119,23 +122,32 @@ const useStyles2 = makeStyles({
     margin: 'auto',
   },
   caster: {
-    border: '2px solid transparent',
+    border: '3px solid transparent',
     borderRadius: '50%',
     backgroundImage:
       'linear-gradient(white, white), linear-gradient(#FF3030, #EE2C2C, #CD2626, #8B1A1A)',
     backgroundOrigin: 'border-box',
     backgroundClip: 'content-box, border-box',
+    '& img': {
+      border: '2px solid white',
+      boxShadow: 'inset 0px 0px 0px 10px red',
+      borderRadius: '50%',
+      boxSizing: 'border-box',
+    },
   },
-  casterIconBG: {
-    width: 22,
-    height: 22,
-    borderRadius: 15,
-    background: 'black',
+  casterBox: {
+    width: 16,
+    height: 16,
+    marginBottom: '6px',
+    marginRight: '4px',
+    background: '#FFF',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  casterIcon: {
-    fontSize: 'large',
-    color: '#f50057',
-    cursor: 'pointer',
+  casterImage: {
+    border: '5px solid white',
   },
 });
 
@@ -163,7 +175,6 @@ export default function Leaderboard() {
   };
 
   function handleSwitcherCasters() {
-    console.log('FRITA');
     setCastersChecked((prev) => !prev);
     if (castersChecked) {
       setUsers(usersWithoutCasters);
@@ -223,9 +234,11 @@ export default function Leaderboard() {
                       }}
                       badgeContent={
                         <Tooltip title="Caster" placement="right" arrow>
-                          <span className={classes.casterIconBG}>
-                            <CasterIcon className={classes.casterIcon} />
-                          </span>
+                          <div className={classes.casterBox}>
+                            <CasterIcon
+                              style={{ fontSize: 13, color: '#f50057' }}
+                            />
+                          </div>
                         </Tooltip>
                       }
                     >
