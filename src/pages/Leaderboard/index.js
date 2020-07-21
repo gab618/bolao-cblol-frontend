@@ -122,23 +122,32 @@ const useStyles2 = makeStyles({
     margin: 'auto',
   },
   caster: {
-    border: '2px solid transparent',
+    border: '3px solid transparent',
     borderRadius: '50%',
     backgroundImage:
       'linear-gradient(white, white), linear-gradient(#FF3030, #EE2C2C, #CD2626, #8B1A1A)',
     backgroundOrigin: 'border-box',
     backgroundClip: 'content-box, border-box',
+    '& img': {
+      border: '2px solid white',
+      boxShadow: 'inset 0px 0px 0px 10px red',
+      borderRadius: '50%',
+      boxSizing: 'border-box',
+    },
   },
-  casterIconBG: {
-    width: 22,
-    height: 22,
-    borderRadius: 15,
-    background: 'black',
+  casterBox: {
+    width: 16,
+    height: 16,
+    marginBottom: '6px',
+    marginRight: '4px',
+    background: '#FFF',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  casterIcon: {
-    fontSize: 'large',
-    color: '#f50057',
-    cursor: 'pointer',
+  casterImage: {
+    border: '5px solid white',
   },
 });
 
@@ -166,7 +175,6 @@ export default function Leaderboard() {
   };
 
   function handleSwitcherCasters() {
-    console.log('FRITA');
     setCastersChecked((prev) => !prev);
     if (castersChecked) {
       setUsers(usersWithoutCasters);
@@ -226,9 +234,11 @@ export default function Leaderboard() {
                       }}
                       badgeContent={
                         <Tooltip title="Caster" placement="right" arrow>
-                          <span className={classes.casterIconBG}>
-                            <CasterIcon className={classes.casterIcon} />
-                          </span>
+                          <div className={classes.casterBox}>
+                            <CasterIcon
+                              style={{ fontSize: 13, color: '#f50057' }}
+                            />
+                          </div>
                         </Tooltip>
                       }
                     >
