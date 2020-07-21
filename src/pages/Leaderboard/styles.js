@@ -32,12 +32,14 @@ export const Wrapper = styled.div`
 
   table {
     height: calc(100vh - 200px);
+    max-height: 600px;
   }
 
   .MuiPaper-root {
     margin-top: 15px;
     background-color: #2c3036;
     height: calc(100vh - 200px);
+    max-height: 600px;
   }
 
   .MuiTablePagination-selectIcon {
