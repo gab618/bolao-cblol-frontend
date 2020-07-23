@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Grid, CssBaseline, Avatar, Paper } from '@material-ui/core';
+import { Grid, CssBaseline, Avatar, Paper, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { MdLockOutline } from 'react-icons/md';
 import { Wrapper, Content } from './styles';
@@ -35,6 +35,15 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
+  gridItem: {
+    margin: '256px auto',
+    padding: '0 8px',
+    maxWidth: '100%',
+    minWidth: 200,
+    textAlign: 'left',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
 }));
 export default function AuthLayout({ children }) {
   const classes = useStyles();
@@ -43,7 +52,18 @@ export default function AuthLayout({ children }) {
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7} className={classes.image}>
-          <span>coxinha</span>
+          <Box
+            component={Grid}
+            className={classes.gridItem}
+            item
+            xs={3}
+            display={{ xs: 'none', sm: 'flex' }}
+          >
+            <h1>Bolão CBLOL</h1>
+            <h3>
+              Dispute com narradores, convide seus amigos e veja quem vence
+            </h3>
+          </Box>
         </Grid>
         <Grid
           item
