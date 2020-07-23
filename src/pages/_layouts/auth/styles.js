@@ -28,7 +28,7 @@ export const Content = styled.div`
     input {
       background: rgba(255, 255, 255, 0.9);
       border: 0;
-      border-radius: 4px;
+      border-radius: 50px;
       height: 56px;
       padding: 0 15px;
       color: #000;
@@ -51,7 +51,7 @@ export const Content = styled.div`
       font-weight: bold;
       color: rgb(220, 218, 212);
       border: 0;
-      border-radius: 4px;
+      border-radius: 50px;
       font-size: 16px;
       transition: background 0.2s;
       &:hover {
