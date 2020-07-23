@@ -22,7 +22,7 @@ export default function SignIn() {
   }
   return (
     <>
-      <h1>Bolão CBLOL</h1>
+      <h1 className>Login</h1>
       <Form schema={schema} onSubmit={handleSubmit}>
         <Input name="email" type="email" placeholder="Seu e-mail" />
         <Input name="password" type="password" placeholder="Senha" />

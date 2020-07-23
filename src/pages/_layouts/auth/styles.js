@@ -12,20 +12,28 @@ export const Wrapper = styled.div`
 
 export const Content = styled.div`
   width: 100%;
-  max-width: 315px;
   text-align: center;
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.334;
+    letter-spacing: 0em;
+  }
+
   form {
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    margin-top: 14px;
     input {
       background: rgba(255, 255, 255, 0.9);
       border: 0;
-      border-radius: 4px;
-      height: 44px;
+      border-radius: 50px;
+      height: 56px;
       padding: 0 15px;
       color: #000;
-      margin: 0 0 10px;
+      margin-top: 16px;
+      margin-bottom: 8px;
       &::placeholder {
         color: rgba(0, 0, 0, 0.5);
       }
@@ -37,13 +45,13 @@ export const Content = styled.div`
       font-weight: bold;
     }
     button {
-      margin: 5px 0 0;
+      margin: 24px 0px 16px;
       height: 44px;
       background: rgb(31, 101, 119);
       font-weight: bold;
       color: rgb(220, 218, 212);
       border: 0;
-      border-radius: 4px;
+      border-radius: 50px;
       font-size: 16px;
       transition: background 0.2s;
       &:hover {
