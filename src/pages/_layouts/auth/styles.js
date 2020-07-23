@@ -8,6 +8,15 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.334;
+    letter-spacing: 0em;
+    text-align: center;
+    margin-top: 16px;
+  }
 `;
 
 export const Content = styled.div`
