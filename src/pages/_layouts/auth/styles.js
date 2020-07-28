@@ -76,5 +76,10 @@ export const Content = styled.div`
         opacity: 1;
       }
     }
+
+    div {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 `;
