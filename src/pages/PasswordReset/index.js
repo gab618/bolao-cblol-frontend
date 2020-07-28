@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Form, Input } from '@rocketseat/unform';
 import { Link, useLocation } from 'react-router-dom';
 import * as Yup from 'yup';
+import jwt from 'jsonwebtoken';
 import api from '../../services/api';
 
+import { signInRequest } from '../../store/modules/auth/actions';
+
 const schema = Yup.object().shape({
-  password: Yup.string().min(6).required(),
+  password: Yup.string().min(6).required('Insira sua nova senha'),
   confirmPassword: Yup.string().when('password', (password, field) =>
-    password ? field.required().oneOf([Yup.ref('password')]) : field
+    password
+      ? field.required('As senhas não batem').oneOf([Yup.ref('password')])
+      : field
   ),
 });
 
@@ -19,12 +25,17 @@ function useQuery() {
 export default function PasswordReset() {
   const [loading, setLoading] = useState(false);
   const query = useQuery();
+  const dispatch = useDispatch();
+
   async function handleSubmit({ password, confirmPassword }) {
-    const token = query.get('token');
+    setLoading(true);
     try {
-      setLoading(true);
+      const token = query.get('token');
+      const { email } = jwt.decode(token);
+
       await api.put('password', { token, password, confirmPassword });
-      toast.success('Senha atualizada!');
+
+      dispatch(signInRequest(email, password));
     } catch (error) {
       toast.error('Algo errado aconteceu!');
     }
