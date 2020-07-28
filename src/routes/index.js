@@ -9,12 +9,16 @@ import SignUp from '../pages/SignUp';
 import Leaderboard from '../pages/Leaderboard';
 import Admin from '../pages/Admin';
 import UserPage from '../pages/UserPage';
+import ForgotPassword from '../pages/ForgotPassword';
+import PasswordReset from '../pages/PasswordReset';
 
 export default function Routes() {
   return (
     <Switch>
       <Route path="/" exact component={SignIn} />
       <Route path="/register" component={SignUp} />
+      <Route path="/forgot_password" component={ForgotPassword} />
+      <Route path="/reset_password" component={PasswordReset} />
 
       <Route path="/home" component={Home} isPrivate />
       <Route path="/profile" component={Profile} isPrivate />

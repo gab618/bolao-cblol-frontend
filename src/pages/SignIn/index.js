@@ -28,7 +28,10 @@ export default function SignIn() {
         <Input name="password" type="password" placeholder="Senha" />
 
         <button type="submit">{loading ? 'Carregando...' : 'Acessar'}</button>
-        <Link to="/register">Criar conta gratuita</Link>
+        <div>
+          <Link to="/forgot_password">Esqueci a senha 😕</Link>
+          <Link to="/register">Criar conta gratuita</Link>
+        </div>
       </Form>
     </>
   );
