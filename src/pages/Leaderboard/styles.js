@@ -22,6 +22,11 @@ export const Wrapper = styled.div`
   td {
     font-size: 18px;
     color: #fff;
+
+    a {
+      font-size: 18px;
+      color: #fff;
+    }
   }
 
   table,

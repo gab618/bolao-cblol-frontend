@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import {
@@ -242,17 +243,26 @@ export default function Leaderboard() {
                         </Tooltip>
                       }
                     >
-                      <Avatar
-                        alt={row.name}
-                        className={classes.caster}
-                        src={row.avatar && row.avatar.url}
-                      />
+                      <Link to={`/user/${row.id}`}>
+                        <Avatar
+                          alt={row.name}
+                          className={classes.caster}
+                          src={row.avatar && row.avatar.url}
+                        />
+                      </Link>
                     </Badge>
                   ) : (
-                    <Avatar alt={row.name} src={row.avatar && row.avatar.url} />
+                    <Link to={`/user/${row.id}`}>
+                      <Avatar
+                        alt={row.name}
+                        src={row.avatar && row.avatar.url}
+                      />
+                    </Link>
                   )}
                 </TableCell>
-                <TableCell align="left">{row.name}</TableCell>
+                <TableCell align="left">
+                  <Link to={`/user/${row.id}`}>{row.name}</Link>
+                </TableCell>
                 <TableCell align="right">{row.points} </TableCell>
               </TableRow>
             ))}
