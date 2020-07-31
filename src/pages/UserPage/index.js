@@ -7,7 +7,7 @@ import { Radio, RadioGroup, CircularProgress } from '@material-ui/core';
 
 import api from '../../services/api';
 
-import { Container, UserTitle, Match, Team } from './styles';
+import { Container, UserTitle, Match, Team, NotFound } from './styles';
 
 export default function UserPage() {
   const [user, setUser] = useState({});
@@ -18,7 +18,7 @@ export default function UserPage() {
   const { id } = useParams();
 
   async function loadBets() {
-    const responseBets = await api.get('bets');
+    const responseBets = await api.get(`bets/${id}`);
     setBets(responseBets.data);
   }
 
@@ -96,62 +96,79 @@ export default function UserPage() {
 
   return (
     <Container>
-      <UserTitle>
-        <img
-          alt={user.name}
-          src="https://bolaocblol.xyz/files/a01fc61d27df6e752d64a5a300396be9.png"
-        />
-        <div>
-          <strong>{user.name}</strong>
-          <span>Pontos: {user.points}</span>
-        </div>
-      </UserTitle>
-      <header>
-        <button type="button" onClick={handlePrevDay}>
-          <MdChevronLeft size={36} color="#FFF" />
-        </button>
-        <strong>{dateFormatted}</strong>
-        <button type="button" onClick={handleNextDay}>
-          <MdChevronRight size={36} color="#FFF" />
-        </button>
-      </header>
-      <span>{!!round && !!round.name ? round.name : 'Carregando...'}</span>
-      <ul>
-        {!!round && !!round.Matches ? (
-          round.Matches.map((m) => (
-            <Match key={m.id} past={m.past}>
-              <strong>{m.start_hour}h</strong>
-              <RadioGroup row className="teams">
-                <Team winner={m.blue.id === m.winner}>
-                  <MdStar size={14} className="chip" />
-                  <img src={m.blue.image} alt={m.blue.name} />
-                  <span>{m.blue.code}</span>
-                  <Radio
-                    checked={m.blue.id === m.choice}
-                    value={m.blue.id}
-                    name="radio-button-demo"
-                  />
-                </Team>
-                X
-                <Team winner={m.red.id === m.winner}>
-                  <MdStar size={14} className="chip" />
-                  <img src={m.red.image} alt={m.red.name} />
-                  <span>{m.red.code}</span>
-                  <Radio
-                    checked={m.red.id === m.choice}
-                    value={m.red.id}
-                    name="radio-button-demo"
-                  />
-                </Team>
-              </RadioGroup>
-            </Match>
-          ))
-        ) : (
-          <li className="loading">
-            <CircularProgress color="secondary" size={64} />
-          </li>
-        )}
-      </ul>
+      {!!user && user.name ? (
+        <>
+          <UserTitle>
+            <img
+              alt={user.name}
+              src={
+                user.avatar
+                  ? user.avatar.url
+                  : 'https://api.adorable.io/avatars/50/abott@adorable.png'
+              }
+            />
+            <div>
+              <strong>{user.name}</strong>
+              <span>Pontos: {user.points}</span>
+            </div>
+          </UserTitle>
+          <header>
+            <button type="button" onClick={handlePrevDay}>
+              <MdChevronLeft size={36} color="#FFF" />
+            </button>
+            <strong>{dateFormatted}</strong>
+            <button type="button" onClick={handleNextDay}>
+              <MdChevronRight size={36} color="#FFF" />
+            </button>
+          </header>
+          <span>{!!round && !!round.name ? round.name : 'Carregando...'}</span>
+          <ul>
+            {!!round && !!round.Matches ? (
+              round.Matches.map((m) => (
+                <Match key={m.id} past={m.past}>
+                  <strong>{m.start_hour}h</strong>
+                  <RadioGroup row className="teams">
+                    <Team winner={m.blue.id === m.winner}>
+                      <MdStar size={14} className="chip" />
+                      <img src={m.blue.image} alt={m.blue.name} />
+                      <span>{m.blue.code}</span>
+                      <Radio
+                        checked={m.blue.id === m.choice}
+                        value={m.blue.id}
+                        name="radio-button-demo"
+                      />
+                    </Team>
+                    X
+                    <Team winner={m.red.id === m.winner}>
+                      <MdStar size={14} className="chip" />
+                      <img src={m.red.image} alt={m.red.name} />
+                      <span>{m.red.code}</span>
+                      <Radio
+                        checked={m.red.id === m.choice}
+                        value={m.red.id}
+                        name="radio-button-demo"
+                      />
+                    </Team>
+                  </RadioGroup>
+                </Match>
+              ))
+            ) : (
+              <li className="loading">
+                <CircularProgress color="secondary" size={64} />
+              </li>
+            )}
+          </ul>
+        </>
+      ) : (
+        <NotFound>
+          <h1>
+            Usuario não encontrado{' '}
+            <span role="img" aria-label="Sad face">
+              😕
+            </span>
+          </h1>
+        </NotFound>
+      )}
     </Container>
   );
 }

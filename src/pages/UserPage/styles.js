@@ -121,3 +121,9 @@ export const Team = styled.div`
     margin-top: 5px;
   }
 `;
+
+export const NotFound = styled.div`
+  display: flex;
+  text-align: center;
+  margin: 100px auto;
+`;
