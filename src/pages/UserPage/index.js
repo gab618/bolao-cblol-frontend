@@ -25,7 +25,9 @@ export default function UserPage() {
   useEffect(() => {
     async function loadAllRoundsDates() {
       const response = await api.get('rounds');
-      const dates = response.data.map((r) => parseISO(r.start_time));
+      const dates = response.data
+        .filter((r) => r.completed)
+        .map((r) => parseISO(r.start_time));
       setAllRoundsDates(dates);
     }
     loadBets();
@@ -125,11 +127,10 @@ export default function UserPage() {
           <ul>
             {!!round && !!round.Matches ? (
               round.Matches.map((m) => (
-                <Match key={m.id} past={m.past}>
+                <Match key={m.id} win={m.winner === m.choice}>
                   <strong>{m.start_hour}h</strong>
                   <RadioGroup row className="teams">
                     <Team winner={m.blue.id === m.winner}>
-                      <MdStar size={14} className="chip" />
                       <img src={m.blue.image} alt={m.blue.name} />
                       <span>{m.blue.code}</span>
                       <Radio
@@ -140,7 +141,6 @@ export default function UserPage() {
                     </Team>
                     X
                     <Team winner={m.red.id === m.winner}>
-                      <MdStar size={14} className="chip" />
                       <img src={m.red.image} alt={m.red.name} />
                       <span>{m.red.code}</span>
                       <Radio
