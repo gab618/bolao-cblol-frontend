@@ -75,11 +75,8 @@ export const Match = styled.li`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  background-color: #2c3036;
   color: #fff;
-
-  opacity: ${(props) => (props.past ? 0.4 : 1)};
-
+  background: ${(props) => (props.win ? 'rgb(0, 80, 80)' : '#2c3036')};
   strong {
     display: block;
     font-size: 20px;
@@ -100,16 +97,6 @@ export const Team = styled.div`
   display: flex;
   flex-direction: column;
 
-  .chip {
-    position: absolute;
-    background: rgb(245, 0, 87);
-    border-radius: 50%;
-    top: -20px;
-    right: 22px;
-    width: 14px;
-    height: 14px;
-    visibility: ${(props) => (props.winner ? 'visible' : 'hidden')};
-  }
   img {
     display: block;
     height: 64px;
