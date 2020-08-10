@@ -111,8 +111,13 @@ export default function Home() {
       <ul>
         {!!round && !!round.Matches ? (
           round.Matches.map((m) => (
-            <Match key={m.id} past={m.past}>
+            <Match
+              key={m.id}
+              past={m.past}
+              unique={!!(round.Matches.length === 1)}
+            >
               <strong>{m.start_hour}h</strong>
+              {round.Matches.length === 1 ? <p>Melhor de 5</p> : ''}
               <RadioGroup row className="teams">
                 <Team winner={m.blue.id === m.winner}>
                   <MdStar size={14} className="chip" />

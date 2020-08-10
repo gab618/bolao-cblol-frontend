@@ -46,7 +46,7 @@ export const Match = styled.li`
   padding: 20px;
   background-color: #2c3036;
   color: #fff;
-
+  grid-column: ${(props) => (props.unique ? '1 / span 2' : '')};
   opacity: ${(props) => (props.past ? 0.4 : 1)};
 
   strong {
@@ -54,6 +54,14 @@ export const Match = styled.li`
     font-size: 20px;
     font-weight: normal;
     text-align: center;
+  }
+
+  p {
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    margin-top: 5px;
   }
 
   .teams {
