@@ -38,6 +38,13 @@ export const Container = styled.div`
     margin: 30px auto;
     grid-column: 1/3;
   }
+
+  @media (max-width: 768px) {
+    margin: 10px 10px;
+    ul {
+      grid-gap: 5px;
+    }
+  }
 `;
 
 export const Match = styled.li`
@@ -46,7 +53,7 @@ export const Match = styled.li`
   padding: 20px;
   background-color: #2c3036;
   color: #fff;
-
+  grid-column: ${(props) => (props.unique ? '1 / span 2' : '')};
   opacity: ${(props) => (props.past ? 0.4 : 1)};
 
   strong {
@@ -54,6 +61,14 @@ export const Match = styled.li`
     font-size: 20px;
     font-weight: normal;
     text-align: center;
+  }
+
+  p {
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: center;
+    margin-top: 5px;
   }
 
   .teams {
@@ -79,11 +94,16 @@ export const Team = styled.div`
     height: 14px;
     visibility: ${(props) => (props.winner ? 'visible' : 'hidden')};
   }
-  img {
+
+  .img-container {
     display: block;
-    height: 64px;
+    height: ${(props) => (props.unique ? 128 : 64)}px;
     padding-bottom: 5px;
     border-bottom: 1px solid rgb(87, 95, 104);
+
+    img {
+      height: 100%;
+    }
   }
 
   span {
