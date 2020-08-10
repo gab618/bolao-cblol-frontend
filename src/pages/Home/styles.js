@@ -38,6 +38,13 @@ export const Container = styled.div`
     margin: 30px auto;
     grid-column: 1/3;
   }
+
+  @media (max-width: 768px) {
+    margin: 10px 10px;
+    ul {
+      grid-gap: 5px;
+    }
+  }
 `;
 
 export const Match = styled.li`
@@ -87,11 +94,16 @@ export const Team = styled.div`
     height: 14px;
     visibility: ${(props) => (props.winner ? 'visible' : 'hidden')};
   }
-  img {
+
+  .img-container {
     display: block;
-    height: 64px;
+    height: ${(props) => (props.unique ? 128 : 64)}px;
     padding-bottom: 5px;
     border-bottom: 1px solid rgb(87, 95, 104);
+
+    img {
+      height: 100%;
+    }
   }
 
   span {

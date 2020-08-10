@@ -119,9 +119,14 @@ export default function Home() {
               <strong>{m.start_hour}h</strong>
               {round.Matches.length === 1 ? <p>Melhor de 5</p> : ''}
               <RadioGroup row className="teams">
-                <Team winner={m.blue.id === m.winner}>
+                <Team
+                  winner={m.blue.id === m.winner}
+                  unique={!!(round.Matches.length === 1)}
+                >
                   <MdStar size={14} className="chip" />
-                  <img src={m.blue.image} alt={m.blue.name} />
+                  <div className="img-container">
+                    <img src={m.blue.image} alt={m.blue.name} />
+                  </div>
                   <span>{m.blue.code}</span>
                   <Radio
                     checked={m.blue.id === m.choice}
@@ -131,9 +136,15 @@ export default function Home() {
                   />
                 </Team>
                 X
-                <Team winner={m.red.id === m.winner}>
+                <Team
+                  winner={m.red.id === m.winner}
+                  unique={!!(round.Matches.length === 1)}
+                >
                   <MdStar size={14} className="chip" />
-                  <img src={m.red.image} alt={m.red.name} />
+
+                  <div className="img-container">
+                    <img src={m.red.image} alt={m.red.name} />
+                  </div>
                   <span>{m.red.code}</span>
                   <Radio
                     checked={m.red.id === m.choice}
