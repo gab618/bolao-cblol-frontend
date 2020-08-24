@@ -100,28 +100,30 @@ export default function UserPage() {
     <Container>
       {!!user && user.name ? (
         <>
-          <UserTitle>
-            <img
-              alt={user.name}
-              src={
-                user.avatar
-                  ? user.avatar.url
-                  : 'https://api.adorable.io/avatars/50/abott@adorable.png'
-              }
-            />
-            <div>
-              <strong>{user.name}</strong>
-              <span>Pontos: {user.points}</span>
-            </div>
-          </UserTitle>
           <header>
-            <button type="button" onClick={handlePrevDay}>
-              <MdChevronLeft size={36} color="#FFF" />
-            </button>
-            <strong>{dateFormatted}</strong>
-            <button type="button" onClick={handleNextDay}>
-              <MdChevronRight size={36} color="#FFF" />
-            </button>
+            <UserTitle>
+              <img
+                alt={user.name}
+                src={
+                  user.avatar
+                    ? user.avatar.url
+                    : 'https://api.adorable.io/avatars/50/abott@adorable.png'
+                }
+              />
+              <div>
+                <strong>{user.name}</strong>
+                <span>Pontos: {user.points}</span>
+              </div>
+            </UserTitle>
+            <div className="date-navigation">
+              <button type="button" onClick={handlePrevDay}>
+                <MdChevronLeft size={36} color="#FFF" />
+              </button>
+              <strong>{dateFormatted}</strong>
+              <button type="button" onClick={handleNextDay}>
+                <MdChevronRight size={36} color="#FFF" />
+              </button>
+            </div>
           </header>
           <span>{!!round && !!round.name ? round.name : 'Carregando...'}</span>
           <ul>

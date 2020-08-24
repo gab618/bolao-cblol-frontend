@@ -6,22 +6,42 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
+  @media (max-width: 768px) {
+    margin: 20px auto;
+  }
+
   header {
     display: flex;
-    align-self: center;
     align-items: center;
-    margin-top: 30px;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgb(87, 95, 104);
 
-    button {
-      border: 0;
-      background: none;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      .date-navigation {
+        margin-top: 15px;
+      }
     }
 
-    strong {
-      font-size: 24px;
-      margin: 0 15px;
+    .date-navigation {
+      display: flex;
+      align-self: center;
+      align-items: center;
+
+      button {
+        border: 0;
+        background: none;
+      }
+
+      strong {
+        font-size: 24px;
+        margin: 0 15px;
+      }
     }
   }
+
   ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -32,7 +52,7 @@ export const Container = styled.div`
   span {
     font-size: 24px;
     text-align: center;
-    margin-top: 5px;
+    margin-top: 15px;
   }
 
   .loading {
@@ -50,10 +70,6 @@ export const Container = styled.div`
 export const UserTitle = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 auto;
-
-  align-items: center;
-  margin-bottom: 10px;
 
   strong {
     font-size: 32px;
