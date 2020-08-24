@@ -127,10 +127,17 @@ export default function UserPage() {
           <ul>
             {!!round && !!round.Matches ? (
               round.Matches.map((m) => (
-                <Match key={m.id} win={m.winner === m.choice}>
+                <Match
+                  key={m.id}
+                  win={m.winner === m.choice}
+                  unique={!!(round.Matches.length === 1)}
+                >
                   <strong>{m.start_hour}h</strong>
                   <RadioGroup row className="teams">
-                    <Team winner={m.blue.id === m.winner}>
+                    <Team
+                      winner={m.blue.id === m.winner}
+                      unique={!!(round.Matches.length === 1)}
+                    >
                       <img src={m.blue.image} alt={m.blue.name} />
                       <span>{m.blue.code}</span>
                       <Radio
@@ -140,7 +147,10 @@ export default function UserPage() {
                       />
                     </Team>
                     X
-                    <Team winner={m.red.id === m.winner}>
+                    <Team
+                      winner={m.red.id === m.winner}
+                      unique={!!(round.Matches.length === 1)}
+                    >
                       <img src={m.red.image} alt={m.red.name} />
                       <span>{m.red.code}</span>
                       <Radio

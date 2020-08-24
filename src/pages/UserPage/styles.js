@@ -39,6 +39,13 @@ export const Container = styled.div`
     margin: 30px auto;
     grid-column: 1/3;
   }
+
+  @media (max-width: 768px) {
+    margin: 10px 10px;
+    ul {
+      grid-gap: 5px;
+    }
+  }
 `;
 
 export const UserTitle = styled.div`
@@ -77,6 +84,8 @@ export const Match = styled.li`
   padding: 20px;
   color: #fff;
   background: ${(props) => (props.win ? 'rgb(0, 80, 80)' : '#2c3036')};
+  grid-column: ${(props) => (props.unique ? '1 / span 2' : '')};
+
   strong {
     display: block;
     font-size: 20px;
@@ -99,7 +108,7 @@ export const Team = styled.div`
 
   img {
     display: block;
-    height: 64px;
+    height: ${(props) => (props.unique ? 128 : 64)}px;
     padding-bottom: 5px;
     border-bottom: 1px solid rgb(87, 95, 104);
   }
