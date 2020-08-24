@@ -40,7 +40,6 @@ export const Container = styled.div`
   }
 
   @media (max-width: 768px) {
-    margin: 10px 10px;
     ul {
       grid-gap: 5px;
     }
@@ -92,6 +91,17 @@ export const Team = styled.div`
     right: 22px;
     width: 14px;
     height: 14px;
+    visibility: ${(props) => (props.winner ? 'visible' : 'hidden')};
+  }
+
+  .chip-larger {
+    position: absolute;
+    background: rgb(245, 0, 87);
+    border-radius: 50%;
+    top: -30px;
+    right: 50px;
+    width: 20px;
+    height: 20px;
     visibility: ${(props) => (props.winner ? 'visible' : 'hidden')};
   }
 

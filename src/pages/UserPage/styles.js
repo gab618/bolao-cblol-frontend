@@ -6,22 +6,42 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
+  @media (max-width: 768px) {
+    margin: 20px auto;
+  }
+
   header {
     display: flex;
-    align-self: center;
     align-items: center;
-    margin-top: 30px;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgb(87, 95, 104);
 
-    button {
-      border: 0;
-      background: none;
+    @media (max-width: 768px) {
+      flex-direction: column;
+      .date-navigation {
+        margin-top: 15px;
+      }
     }
 
-    strong {
-      font-size: 24px;
-      margin: 0 15px;
+    .date-navigation {
+      display: flex;
+      align-self: center;
+      align-items: center;
+
+      button {
+        border: 0;
+        background: none;
+      }
+
+      strong {
+        font-size: 24px;
+        margin: 0 15px;
+      }
     }
   }
+
   ul {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -32,22 +52,24 @@ export const Container = styled.div`
   span {
     font-size: 24px;
     text-align: center;
-    margin-top: 5px;
+    margin-top: 15px;
   }
 
   .loading {
     margin: 30px auto;
     grid-column: 1/3;
   }
+
+  @media (max-width: 768px) {
+    ul {
+      grid-gap: 5px;
+    }
+  }
 `;
 
 export const UserTitle = styled.div`
   display: flex;
   align-items: center;
-  margin: 0 auto;
-
-  align-items: center;
-  margin-bottom: 10px;
 
   strong {
     font-size: 32px;
@@ -77,6 +99,8 @@ export const Match = styled.li`
   padding: 20px;
   color: #fff;
   background: ${(props) => (props.win ? 'rgb(0, 80, 80)' : '#2c3036')};
+  grid-column: ${(props) => (props.unique ? '1 / span 2' : '')};
+
   strong {
     display: block;
     font-size: 20px;
@@ -99,7 +123,7 @@ export const Team = styled.div`
 
   img {
     display: block;
-    height: 64px;
+    height: ${(props) => (props.unique ? 128 : 64)}px;
     padding-bottom: 5px;
     border-bottom: 1px solid rgb(87, 95, 104);
   }
