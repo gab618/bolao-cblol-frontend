@@ -123,7 +123,12 @@ export default function Home() {
                   winner={m.blue.id === m.winner}
                   unique={!!(round.Matches.length === 1)}
                 >
-                  <MdStar size={14} className="chip" />
+                  <MdStar
+                    size={14}
+                    className={
+                      round.Matches.length === 1 ? 'chip-larger' : 'chip'
+                    }
+                  />
                   <div className="img-container">
                     <img src={m.blue.image} alt={m.blue.name} />
                   </div>
@@ -140,7 +145,12 @@ export default function Home() {
                   winner={m.red.id === m.winner}
                   unique={!!(round.Matches.length === 1)}
                 >
-                  <MdStar size={14} className="chip" />
+                  <MdStar
+                    size={14}
+                    className={
+                      round.Matches.length === 1 ? 'chip-larger' : 'chip'
+                    }
+                  />
 
                   <div className="img-container">
                     <img src={m.red.image} alt={m.red.name} />

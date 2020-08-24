@@ -95,6 +95,17 @@ export const Team = styled.div`
     visibility: ${(props) => (props.winner ? 'visible' : 'hidden')};
   }
 
+  .chip-larger {
+    position: absolute;
+    background: rgb(245, 0, 87);
+    border-radius: 50%;
+    top: -30px;
+    right: 50px;
+    width: 20px;
+    height: 20px;
+    visibility: ${(props) => (props.winner ? 'visible' : 'hidden')};
+  }
+
   .img-container {
     display: block;
     height: ${(props) => (props.unique ? 128 : 64)}px;
