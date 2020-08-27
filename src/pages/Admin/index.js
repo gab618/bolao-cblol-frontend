@@ -118,7 +118,7 @@ function Admin() {
           <RoundForms rounds={rounds} />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <MatchesForms matches={matches} />
+          <MatchesForms matches={matches} teams={teams} rounds={rounds} />
         </TabPanel>
       </div>
 

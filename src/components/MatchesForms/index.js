@@ -1,12 +1,34 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input } from '@rocketseat/unform';
+import { Form, Input, Select } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import api from '../../services/api';
 
 // import { Container } from './styles';
 
-function MatchesForms({ matches }) {
+function MatchesForms({ matches, teams, rounds }) {
+  const [selectTeams, setSelectTeamsOptions] = useState([]);
+  const [selectRounds, setSelectRoundsOptions] = useState([]);
+
+  // const options = [
+  //   { id: '0', title: 'Desativado' },
+  //   { id: '1', title: 'Ativo' },
+  //   { id: '2', title: 'Inativo' },
+  //   { id: '3', title: 'Aguardando ativação' },
+  // ];
+  // setOptions([...options, selectOptions]);
+
+  useEffect(() => {
+    const teamOptions = teams.map((t) => {
+      return { id: t.id, title: t.name };
+    });
+    const roundOptions = rounds.map((r) => {
+      return { id: r.id, title: r.name };
+    });
+    setSelectTeamsOptions(teamOptions);
+    setSelectRoundsOptions(roundOptions);
+  }, []);
+
   async function handleNewMatch(data) {
     try {
       await api.post('match', data);
@@ -36,19 +58,35 @@ function MatchesForms({ matches }) {
   return (
     <>
       <Form onSubmit={handleNewMatch}>
-        <Input name="blue_team" placeholder="blue_team" />
-        <Input name="red_team" placeholder="red_team" />
-        <Input name="round_id" placeholder="round_id" />
-        <Input name="start_time" placeholder="start_time" />
+        <Select
+          name="blue_team"
+          options={selectTeams}
+          placeholder="blue_team"
+        />
+        <Select name="red_team" options={selectTeams} placeholder="red_team" />
+        <Select name="round_id" options={selectRounds} placeholder="round_id" />
+        <Input
+          name="start_time"
+          type="datetime-local"
+          placeholder="start_time"
+        />
 
         <button type="submit">create</button>
       </Form>
       <Form onSubmit={handleUpdateMatch}>
         <Input name="id" placeholder="id" />
-        <Input name="blue_team" placeholder="blue_team" />
-        <Input name="red_team" placeholder="red_team" />
-        <Input name="round_id" placeholder="round_id" />
-        <Input name="start_time" placeholder="start_time" />
+        <Select
+          name="blue_team"
+          options={selectTeams}
+          placeholder="blue_team"
+        />
+        <Select name="red_team" options={selectTeams} placeholder="red_team" />
+        <Select name="round_id" options={selectRounds} placeholder="round_id" />
+        <Input
+          name="start_time"
+          type="datetime-local"
+          placeholder="start_time"
+        />
 
         <button type="submit">edit</button>
       </Form>
