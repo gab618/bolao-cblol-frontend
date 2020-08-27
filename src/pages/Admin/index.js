@@ -1,9 +1,55 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
+import { AppBar, Tabs, Tab, Box, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import api from '../../services/api';
 
-// import { Container } from './styles';
+import TeamForms from '../../components/TeamForms';
+import RoundForms from '../../components/RoundForms';
+import MatchesForms from '../../components/MatchesForms';
+
+import { Container } from './styles';
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
 
 function Admin() {
   const [teams, setTeams] = useState([]);
@@ -27,62 +73,6 @@ function Admin() {
     loadMatches();
   }, []);
 
-  async function handleNewTeam(data) {
-    try {
-      await api.post('team', data);
-      toast.success('time criada');
-    } catch (err) {
-      toast.error('error');
-    }
-  }
-  async function handleUpdateTeam(data) {
-    try {
-      await api.put(`team/${data.id}`, data);
-      toast.success('time editado');
-    } catch (err) {
-      toast.error('error');
-    }
-  }
-  async function handleNewRound(data) {
-    try {
-      await api.post('round', data);
-      toast.success('round criada');
-    } catch (err) {
-      toast.error('error');
-    }
-  }
-  async function handleUpdateRound(data) {
-    try {
-      await api.put(`round/${data.id}`, data);
-      toast.success('round editado');
-    } catch (err) {
-      toast.error('error');
-    }
-  }
-  async function handleNewMatch(data) {
-    try {
-      await api.post('match', data);
-      toast.success('match criada');
-    } catch (err) {
-      toast.error('error');
-    }
-  }
-  async function handleUpdateMatch(data) {
-    try {
-      await api.put(`match/${data.id}`, data);
-      toast.success('match editado');
-    } catch (err) {
-      toast.error('error');
-    }
-  }
-  async function handleSetWinMatch(data) {
-    try {
-      await api.put(`match/${data.id}`, data);
-      toast.success('match editado');
-    } catch (err) {
-      toast.error('error');
-    }
-  }
   async function handleUpdateLeaderboard(data) {
     try {
       await api.put(`result/${data.id}`);
@@ -101,86 +91,36 @@ function Admin() {
     }
   }
 
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   return (
-    <>
-      <h4>Team</h4>
-      <Form onSubmit={handleNewTeam}>
-        <Input name="name" placeholder="name" />
-        <Input name="code" placeholder="code" />
-        <Input name="image" placeholder="image" />
-
-        <button type="submit">create</button>
-      </Form>
-      <Form onSubmit={handleUpdateTeam}>
-        <Input name="id" placeholder="id" />
-        <Input name="name" placeholder="name" />
-        <Input name="code" placeholder="code" />
-        <Input name="image" placeholder="image" />
-
-        <button type="submit">update</button>
-      </Form>
-
-      {teams.map((t) => (
-        <p key={t.id}>
-          {t.id}:{t.name}:{t.code}:{t.image}
-        </p>
-      ))}
-      <br />
-      <h4>Round</h4>
-      <Form onSubmit={handleNewRound}>
-        <Input name="name" placeholder="name" />
-        <Input name="start_time" placeholder="start_time" />
-        <Input name="strategy" placeholder="strategy" />
-
-        <button type="submit">create</button>
-      </Form>
-      <Form onSubmit={handleUpdateRound}>
-        <Input name="id" placeholder="id" />
-        <Input name="name" placeholder="name" />
-        <Input name="start_time" placeholder="start_time" />
-        <Input name="strategy" placeholder="strategy" />
-        <Input name="completed" placeholder="completed" />
-
-        <button type="submit">edit</button>
-      </Form>
-      {rounds.map((t) => (
-        <p key={t.id}>
-          {t.id}:{t.name}:{t.start_time}:{t.strategy}:{String(t.completed)}
-        </p>
-      ))}
-      <br />
-
-      <h4>Matches</h4>
-      <Form onSubmit={handleNewMatch}>
-        <Input name="blue_team" placeholder="blue_team" />
-        <Input name="red_team" placeholder="red_team" />
-        <Input name="round_id" placeholder="round_id" />
-        <Input name="start_time" placeholder="start_time" />
-
-        <button type="submit">create</button>
-      </Form>
-      <Form onSubmit={handleUpdateMatch}>
-        <Input name="id" placeholder="id" />
-        <Input name="blue_team" placeholder="blue_team" />
-        <Input name="red_team" placeholder="red_team" />
-        <Input name="round_id" placeholder="round_id" />
-        <Input name="start_time" placeholder="start_time" />
-
-        <button type="submit">edit</button>
-      </Form>
-      <Form onSubmit={handleSetWinMatch}>
-        <Input name="id" placeholder="id" />
-        <Input name="winner" placeholder="winner" />
-
-        <button type="submit">set win</button>
-      </Form>
-      {matches.map((t) => (
-        <p key={t.id}>
-          {t.id}:{t.winner}:blue[{t.blue.id}:{t.blue.code}]:red[
-          {t.red.id}:{t.red.code}]:round[{t.round.name}] === {t.start_time}
-        </p>
-      ))}
-      <br />
+    <Container>
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="simple tabs example"
+          >
+            <Tab label="Team" {...a11yProps(0)} />
+            <Tab label="Rounds" {...a11yProps(1)} />
+            <Tab label="Matches" {...a11yProps(2)} />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={value} index={0}>
+          <TeamForms teams={teams} />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <RoundForms rounds={rounds} />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <MatchesForms matches={matches} teams={teams} rounds={rounds} />
+        </TabPanel>
+      </div>
 
       <h4>Result</h4>
       <Form onSubmit={handleUpdateLeaderboard}>
@@ -190,7 +130,7 @@ function Admin() {
       <Form onSubmit={handleUpdatePoints}>
         <button type="submit">atualizar pontos</button>
       </Form>
-    </>
+    </Container>
   );
 }
 
