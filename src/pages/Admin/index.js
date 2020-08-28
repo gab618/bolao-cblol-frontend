@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input } from '@rocketseat/unform';
+import { Form, Select } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import { AppBar, Tabs, Tab, Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,14 +47,16 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: '#2C3036',
   },
 }));
 
 function Admin() {
   const [teams, setTeams] = useState([]);
   const [rounds, setRounds] = useState([]);
+  const [roundsSelectOptions, setRoundsSelectOptions] = useState([]);
   const [matches, setMatches] = useState([]);
+
   useEffect(() => {
     async function loadTeams() {
       const response = await api.get('team');
@@ -63,6 +65,10 @@ function Admin() {
     async function loadRounds() {
       const response = await api.get('rounds');
       setRounds(response.data);
+      const selectOptions = response.data.map((round) => {
+        return { id: round.id, title: round.name };
+      });
+      setRoundsSelectOptions(selectOptions);
     }
     async function loadMatches() {
       const response = await api.get('matches');
@@ -111,24 +117,23 @@ function Admin() {
             <Tab label="Matches" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
-        <TabPanel value={value} index={0}>
+        <TabPanel value={value} index={0} className="admin-forms">
           <TeamForms teams={teams} />
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={value} index={1} className="admin-forms">
           <RoundForms rounds={rounds} />
         </TabPanel>
-        <TabPanel value={value} index={2}>
+        <TabPanel value={value} index={2} className="admin-forms">
           <MatchesForms matches={matches} teams={teams} rounds={rounds} />
         </TabPanel>
       </div>
 
-      <h4>Result</h4>
-      <Form onSubmit={handleUpdateLeaderboard}>
-        <Input name="id" placeholder="id" />
-        <button type="submit">atualizar round</button>
+      <Form onSubmit={handleUpdateLeaderboard} className="update-round">
+        <Select name="id" placeholder="id" options={roundsSelectOptions} />
+        <button type="submit">Atualizar round</button>
       </Form>
-      <Form onSubmit={handleUpdatePoints}>
-        <button type="submit">atualizar pontos</button>
+      <Form onSubmit={handleUpdatePoints} className="points">
+        <button type="submit">Atualizar pontos</button>
       </Form>
     </Container>
   );

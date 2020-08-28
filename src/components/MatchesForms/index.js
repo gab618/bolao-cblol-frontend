@@ -10,14 +10,6 @@ function MatchesForms({ matches, teams, rounds }) {
   const [selectTeams, setSelectTeamsOptions] = useState([]);
   const [selectRounds, setSelectRoundsOptions] = useState([]);
 
-  // const options = [
-  //   { id: '0', title: 'Desativado' },
-  //   { id: '1', title: 'Ativo' },
-  //   { id: '2', title: 'Inativo' },
-  //   { id: '3', title: 'Aguardando ativação' },
-  // ];
-  // setOptions([...options, selectOptions]);
-
   useEffect(() => {
     const teamOptions = teams.map((t) => {
       return { id: t.id, title: t.name };
