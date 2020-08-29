@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input } from '@rocketseat/unform';
+import { Form, Input, Select, Check } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import {
   ExpansionPanel,
@@ -31,6 +31,19 @@ const useStyles = makeStyles((theme) => ({
 
 function RoundsForms({ rounds }) {
   const classes = useStyles();
+  const [selectRoundsOptions, setSelectRoundsOptions] = useState([]);
+  const [updateRoundName, setUpdateRoundName] = useState('');
+  const [updateRoundStartTime, setUpdateRoundStartTime] = useState('');
+  const [updateRoundStrategy, setUpdateRoundStrategy] = useState('');
+  const [updateRoundCompleted, setUpdateRoundCompleted] = useState('');
+
+  useEffect(() => {
+    const options = rounds.map((r) => {
+      return { id: r.id, title: r.name };
+    });
+    setSelectRoundsOptions(options);
+  }, [rounds]);
+
   async function handleNewRound(data) {
     try {
       await api.post('round', data);
@@ -48,21 +61,65 @@ function RoundsForms({ rounds }) {
     }
   }
 
+  function handleSelectRoundToUpdate(e) {
+    const roundId = Number(e.target.value);
+    const selectedRound = rounds.filter((round) => {
+      return round.id === roundId;
+    });
+
+    if (selectedRound[0]) {
+      setUpdateRoundName(selectedRound[0].name);
+      setUpdateRoundStartTime(selectedRound[0].start_time);
+      setUpdateRoundStrategy(selectedRound[0].strategy);
+      setUpdateRoundCompleted(!!selectedRound[0].completed);
+    }
+  }
+
   return (
     <>
       <Form onSubmit={handleNewRound}>
         <Input name="name" placeholder="name" />
-        <Input name="start_time" placeholder="start_time" />
+        <Input
+          name="start_time"
+          placeholder="start_time"
+          type="datetime-local"
+        />
         <Input name="strategy" placeholder="strategy" />
 
         <button type="submit">create</button>
       </Form>
       <Form onSubmit={handleUpdateRound}>
-        <Input name="id" placeholder="id" />
-        <Input name="name" placeholder="name" />
-        <Input name="start_time" placeholder="start_time" />
-        <Input name="strategy" placeholder="strategy" />
-        <Input name="completed" placeholder="completed" />
+        <Select
+          name="id"
+          placeholder="id"
+          options={selectRoundsOptions}
+          onChange={handleSelectRoundToUpdate}
+        />
+        <Input
+          name="name"
+          placeholder="name"
+          value={updateRoundName}
+          onChange={(e) => setUpdateRoundName(e.target.value)}
+        />
+        <Input
+          name="start_time"
+          placeholder="start_time"
+          type="datetime-local"
+          value={updateRoundStartTime}
+          onChange={(e) => setUpdateRoundStartTime(e.target.value)}
+        />
+        <Input
+          name="strategy"
+          placeholder="strategy"
+          value={updateRoundStrategy}
+          onChange={(e) => setUpdateRoundStrategy(e.target.value)}
+        />
+        <Input
+          name="completed"
+          placeholder="completed"
+          value={updateRoundCompleted}
+          onChange={(e) => setUpdateRoundCompleted(e.target.value)}
+        />
 
         <button type="submit">edit</button>
       </Form>
