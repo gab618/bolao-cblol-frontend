@@ -51,4 +51,9 @@ export const Container = styled.div`
       margin-right: 8px;
     }
   }
+
+  .points,
+  .update-round {
+    border-bottom: 0;
+  }
 `;
