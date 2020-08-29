@@ -41,4 +41,14 @@ export const Container = styled.div`
       }
     }
   }
+
+  form {
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgb(87, 95, 104);
+
+    input,
+    select {
+      margin-right: 8px;
+    }
+  }
 `;
