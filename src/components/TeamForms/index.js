@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input } from '@rocketseat/unform';
+import { Form, Input, Select } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import {
   ExpansionPanel,
@@ -12,7 +12,6 @@ import {
 import { MdExpandMore } from 'react-icons/md';
 import api from '../../services/api';
 
-// import { Container } from './styles';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -31,6 +30,18 @@ const useStyles = makeStyles((theme) => ({
 
 function TeamForms({ teams }) {
   const classes = useStyles();
+  const [selectTeamsOptions, setSelectTeamsOptions] = useState([]);
+  const [updateTeamName, setUpdateTeamName] = useState('');
+  const [updateTeamCode, setUpdateTeamCode] = useState('');
+  const [updateTeamImage, setUpdateTeamImage] = useState('');
+
+  useEffect(() => {
+    const options = teams.map((t) => {
+      return { id: t.id, title: t.name };
+    });
+    setSelectTeamsOptions(options);
+  }, [teams]);
+
   async function handleNewTeam(data) {
     try {
       await api.post('team', data);
@@ -48,6 +59,20 @@ function TeamForms({ teams }) {
       toast.error('error');
     }
   }
+
+  function handleSelectTeamToUpdate(e) {
+    const teamId = Number(e.target.value);
+    const selectedTeam = teams.filter((team) => {
+      return team.id === teamId;
+    });
+
+    if (selectedTeam[0]) {
+      setUpdateTeamName(selectedTeam[0].name);
+      setUpdateTeamCode(selectedTeam[0].code);
+      setUpdateTeamImage(selectedTeam[0].image);
+    }
+  }
+
   return (
     <>
       <Form onSubmit={handleNewTeam}>
@@ -58,10 +83,30 @@ function TeamForms({ teams }) {
         <button type="submit">create</button>
       </Form>
       <Form onSubmit={handleUpdateTeam}>
-        <Input name="id" placeholder="id" />
-        <Input name="name" placeholder="name" />
-        <Input name="code" placeholder="code" />
-        <Input name="image" placeholder="image" />
+        <Select
+          name="id"
+          placeholder="id"
+          options={selectTeamsOptions}
+          onChange={handleSelectTeamToUpdate}
+        />
+        <Input
+          name="name"
+          placeholder="name"
+          value={updateTeamName}
+          onChange={(e) => setUpdateTeamName(e.target.value)}
+        />
+        <Input
+          name="code"
+          placeholder="code"
+          value={updateTeamCode}
+          onChange={(e) => setUpdateTeamCode(e.target.value)}
+        />
+        <Input
+          name="image"
+          placeholder="image"
+          value={updateTeamImage}
+          onChange={(e) => setUpdateTeamImage(e.target.value)}
+        />
 
         <button type="submit">update</button>
       </Form>
