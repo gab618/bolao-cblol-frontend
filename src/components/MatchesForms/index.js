@@ -33,6 +33,8 @@ function MatchesForms({ matches, teams, rounds }) {
   const classes = useStyles();
   const [selectTeams, setSelectTeamsOptions] = useState([]);
   const [selectRounds, setSelectRoundsOptions] = useState([]);
+  const [selectMatchesOptions, setSelectMatchesOptions] = useState([]);
+  const [selectWinnerOptions, setSelectWinnerOptions] = useState([]);
 
   useEffect(() => {
     const teamOptions = teams.map((t) => {
@@ -41,9 +43,14 @@ function MatchesForms({ matches, teams, rounds }) {
     const roundOptions = rounds.map((r) => {
       return { id: r.id, title: r.name };
     });
+    const matchOptions = matches.map((r) => {
+      return { id: r.id, title: `[${r.id}] ${r.blue.code} x ${r.red.code}` };
+    });
+
     setSelectTeamsOptions(teamOptions);
     setSelectRoundsOptions(roundOptions);
-  }, []);
+    setSelectMatchesOptions(matchOptions);
+  }, [teams, rounds, matches]);
 
   async function handleNewMatch(data) {
     try {
@@ -62,12 +69,40 @@ function MatchesForms({ matches, teams, rounds }) {
       toast.error('error');
     }
   }
+
   async function handleSetWinMatch(data) {
     try {
       await api.put(`match/${data.id}`, data);
       toast.success('match editado');
     } catch (err) {
       toast.error('error');
+    }
+  }
+
+  function handleSelectMatchesToUpdate(e) {
+    const matchId = Number(e.target.value);
+    const selectedMatch = matches.filter((match) => {
+      return match.id === matchId;
+    });
+
+    if (selectedMatch[0]) {
+      // setUpdateMatch(selectedRound[0].name);
+    }
+  }
+
+  function handleSelectWinnerToUpdate(e) {
+    const matchId = Number(e.target.value);
+    const selectedMatch = matches.filter((match) => {
+      return match.id === matchId;
+    });
+    if (selectedMatch[0]) {
+      const { blue } = selectedMatch[0];
+      const { red } = selectedMatch[0];
+
+      setSelectWinnerOptions([
+        { id: blue.id, title: blue.name },
+        { id: red.id, title: red.name },
+      ]);
     }
   }
 
@@ -90,7 +125,12 @@ function MatchesForms({ matches, teams, rounds }) {
         <button type="submit">create</button>
       </Form>
       <Form onSubmit={handleUpdateMatch}>
-        <Input name="id" placeholder="id" />
+        <Select
+          name="id"
+          placeholder="id"
+          options={selectMatchesOptions}
+          onChange={handleSelectMatchesToUpdate}
+        />
         <Select
           name="blue_team"
           options={selectTeams}
@@ -107,8 +147,17 @@ function MatchesForms({ matches, teams, rounds }) {
         <button type="submit">edit</button>
       </Form>
       <Form onSubmit={handleSetWinMatch}>
-        <Input name="id" placeholder="id" />
-        <Input name="winner" placeholder="winner" />
+        <Select
+          name="id"
+          placeholder="id"
+          options={selectMatchesOptions}
+          onChange={handleSelectWinnerToUpdate}
+        />
+        <Select
+          name="winner"
+          placeholder="winner"
+          options={selectWinnerOptions}
+        />
 
         <button type="submit">set win</button>
       </Form>
