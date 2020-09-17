@@ -11,11 +11,13 @@ import Admin from '../pages/Admin';
 import UserPage from '../pages/UserPage';
 import ForgotPassword from '../pages/ForgotPassword';
 import PasswordReset from '../pages/PasswordReset';
+import WaitingPage from '../pages/WaitingPage';
 
 export default function Routes() {
   return (
     <Switch>
-      <Route path="/" exact component={SignIn} />
+      <Route path="/" exact component={WaitingPage} />
+      <Route path="/login" exact component={SignIn} />
       <Route path="/register" component={SignUp} />
       <Route path="/forgot_password" component={ForgotPassword} />
       <Route path="/reset_password" component={PasswordReset} />
