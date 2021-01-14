@@ -16,7 +16,7 @@ import WaitingPage from '../pages/WaitingPage';
 export default function Routes() {
   return (
     <Switch>
-      <Route path="/" exact component={WaitingPage} />
+      <Route path="/" exact component={SignIn} />
       <Route path="/login" exact component={SignIn} />
       <Route path="/register" component={SignUp} />
       <Route path="/forgot_password" component={ForgotPassword} />
