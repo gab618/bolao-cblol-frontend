@@ -6,6 +6,10 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
+  @media (max-width: 1440px) {
+    margin: 16px auto;
+  }
+
   header {
     display: flex;
     align-self: center;
@@ -21,6 +25,7 @@ export const Container = styled.div`
       margin: 0 15px;
     }
   }
+
   ul {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
