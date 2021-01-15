@@ -12,7 +12,11 @@ function Header() {
       <Content>
         <nav>
           <Link to="/home">
-            <img src={logo} height={32} alt="Bolao CBLOL" />
+            <img
+              src="https://i.imgur.com/8FV4ALd.png"
+              height={48}
+              alt="Bolao CBLOL"
+            />
           </Link>
           <Link to="/home">BOLÃO CBLOL</Link>
         </nav>
