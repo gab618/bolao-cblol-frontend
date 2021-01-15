@@ -11,7 +11,7 @@ import Admin from '../pages/Admin';
 import UserPage from '../pages/UserPage';
 import ForgotPassword from '../pages/ForgotPassword';
 import PasswordReset from '../pages/PasswordReset';
-import WaitingPage from '../pages/WaitingPage';
+// import WaitingPage from '../pages/WaitingPage';
 
 export default function Routes() {
   return (
