@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { Container, Content, Profile } from './styles';
-import logo from '../../assets/logo.png';
 
 function Header() {
   const profile = useSelector((state) => state.user.profile);

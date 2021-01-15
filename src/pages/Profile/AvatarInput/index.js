@@ -39,7 +39,8 @@ function AvatarInput() {
       <label htmlFor="avatar">
         <img
           src={
-            preview || 'https://api.adorable.io/avatars/50/abott@adorable.png'
+            preview ||
+            'https://www.riotgames.com/darkroom/390/9820c18bc625d00fe118be10405c065a:9aaf80fdbeca44bcf50651584a14423a/idahotb-icon.png'
           }
           alt=""
         />
