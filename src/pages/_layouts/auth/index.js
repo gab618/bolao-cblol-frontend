@@ -14,15 +14,14 @@ const useStyles = makeStyles((theme) => ({
     background: '#0e1012',
   },
   image: {
-    backgroundImage:
-      'url(https://jpimg.com.br/uploads/2018/09/44555992641_49faa4e5bf_h-1079x720.jpg)',
+    backgroundImage: 'url(https://i.imgur.com/E4UBuzG.png)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light'
         ? theme.palette.grey[50]
         : theme.palette.grey[900],
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: 'right',
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   gridItem: {
-    margin: '256px auto',
+    margin: '64px auto',
     padding: '0 8px',
     maxWidth: '100%',
     minWidth: 200,
