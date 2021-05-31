@@ -8,6 +8,7 @@ import {
   ExpansionPanelSummary,
   Typography,
   makeStyles,
+  Checkbox,
 } from '@material-ui/core';
 import { MdExpandMore } from 'react-icons/md';
 import api from '../../services/api';
@@ -33,6 +34,7 @@ function MatchesForms({ matches, teams, rounds }) {
   const classes = useStyles();
   const [selectTeams, setSelectTeamsOptions] = useState([]);
   const [selectRounds, setSelectRoundsOptions] = useState([]);
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     const teamOptions = teams.map((t) => {
@@ -47,7 +49,7 @@ function MatchesForms({ matches, teams, rounds }) {
 
   async function handleNewMatch(data) {
     try {
-      await api.post('match', data);
+      await api.post('match', { ...data, is_bo5: checked });
       toast.success('match criada');
     } catch (err) {
       toast.error('error');
@@ -56,20 +58,45 @@ function MatchesForms({ matches, teams, rounds }) {
 
   async function handleUpdateMatch(data) {
     try {
-      await api.put(`match/${data.id}`, data);
+      await api.put(`match/${data.id}`, { ...data, is_bo5: checked });
       toast.success('match editado');
     } catch (err) {
       toast.error('error');
     }
   }
   async function handleSetWinMatch(data) {
+    const { id, winner, scoreboard } = data;
+    const { blue } = matches.filter((m) => m.id === Number(id))[0];
+
+    const [winnerPoints, loserPoints] = scoreboard.split('x');
+    let blueTeamWins = 0;
+    let redTeamWins = 0;
+
+    if (Number(winner) === blue.id) {
+      blueTeamWins = Number(winnerPoints);
+      redTeamWins = Number(loserPoints);
+    } else {
+      redTeamWins = Number(winnerPoints);
+      blueTeamWins = Number(loserPoints);
+    }
+
+    const editedMatch = {
+      ...data,
+      blue_team_wins: blueTeamWins,
+      red_team_wins: redTeamWins,
+    };
+
     try {
-      await api.put(`match/${data.id}`, data);
+      await api.put(`match/${editedMatch.id}`, editedMatch);
       toast.success('match editado');
     } catch (err) {
       toast.error('error');
     }
   }
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
 
   return (
     <>
@@ -85,6 +112,14 @@ function MatchesForms({ matches, teams, rounds }) {
           name="start_time"
           type="datetime-local"
           placeholder="start_time"
+        />
+        <Checkbox
+          name="is_bo5"
+          checked={checked}
+          value={checked}
+          onChange={handleChange}
+          inputProps={{ 'aria-label': 'primary checkbox' }}
+          color="primary"
         />
 
         <button type="submit">create</button>
@@ -103,13 +138,21 @@ function MatchesForms({ matches, teams, rounds }) {
           type="datetime-local"
           placeholder="start_time"
         />
+        <Checkbox
+          name="is_bo5"
+          checked={checked}
+          value={checked}
+          onChange={handleChange}
+          inputProps={{ 'aria-label': 'primary checkbox' }}
+          color="primary"
+        />
 
         <button type="submit">edit</button>
       </Form>
       <Form onSubmit={handleSetWinMatch}>
         <Input name="id" placeholder="id" />
-        <Input name="winner" placeholder="winner" />
-
+        <Select name="winner" options={selectTeams} placeholder="winner" />
+        <Input name="scoreboard" placeholder="placar: 1x0" />
         <button type="submit">set win</button>
       </Form>
 
