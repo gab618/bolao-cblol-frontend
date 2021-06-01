@@ -132,12 +132,7 @@ function Admin() {
           <MatchesForms matches={matches} teams={teams} rounds={rounds} />
         </TabPanel>
         <TabPanel value={value} index={3} className="admin-forms">
-          <CastersForm
-            matches={matches}
-            teams={teams}
-            rounds={rounds}
-            casters={casters}
-          />
+          <CastersForm matches={matches} casters={casters} />
         </TabPanel>
       </div>
 

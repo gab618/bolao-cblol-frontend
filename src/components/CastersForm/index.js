@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MatchesForms({ matches, teams, rounds, casters }) {
+function MatchesForms({ matches, casters }) {
   const classes = useStyles();
   const [selectMatches, setSelectMatchesOptions] = useState([]);
   const [castersChoices, setCastersChoices] = useState(
