@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Select } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
-import { AppBar, Tabs, Tab, Box, Typography } from '@material-ui/core';
+import { AppBar, Tabs, Tab, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import api from '../../services/api';
 
 import TeamForms from '../../components/TeamForms';
 import RoundForms from '../../components/RoundForms';
 import MatchesForms from '../../components/MatchesForms';
+import CastersForm from '../../components/CastersForm';
 
 import { Container } from './styles';
 
@@ -23,11 +24,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box p={4}>{children}</Box>}
     </div>
   );
 }
@@ -56,6 +53,7 @@ function Admin() {
   const [rounds, setRounds] = useState([]);
   const [roundsSelectOptions, setRoundsSelectOptions] = useState([]);
   const [matches, setMatches] = useState([]);
+  const [casters, setCasters] = useState([]);
 
   useEffect(() => {
     async function loadTeams() {
@@ -74,9 +72,15 @@ function Admin() {
       const response = await api.get('matches');
       setMatches(response.data);
     }
+
+    async function loadCasters() {
+      const response = await api.get('casters');
+      setCasters(response.data);
+    }
     loadTeams();
     loadRounds();
     loadMatches();
+    loadCasters();
   }, []);
 
   async function handleUpdateLeaderboard(data) {
@@ -115,6 +119,7 @@ function Admin() {
             <Tab label="Team" {...a11yProps(0)} />
             <Tab label="Rounds" {...a11yProps(1)} />
             <Tab label="Matches" {...a11yProps(2)} />
+            <Tab label="Casters" {...a11yProps(3)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0} className="admin-forms">
@@ -125,6 +130,9 @@ function Admin() {
         </TabPanel>
         <TabPanel value={value} index={2} className="admin-forms">
           <MatchesForms matches={matches} teams={teams} rounds={rounds} />
+        </TabPanel>
+        <TabPanel value={value} index={3} className="admin-forms">
+          <CastersForm matches={matches} casters={casters} />
         </TabPanel>
       </div>
 
