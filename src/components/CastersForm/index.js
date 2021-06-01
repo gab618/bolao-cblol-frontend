@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 function MatchesForms({ matches, teams, rounds, casters }) {
   const classes = useStyles();
   const [selectMatches, setSelectMatchesOptions] = useState([]);
-  const [checked, setChecked] = useState(false);
   const [castersChoices, setCastersChoices] = useState(
     Object.fromEntries(casters.map((caster) => [caster.id, false]))
   );
@@ -52,33 +51,64 @@ function MatchesForms({ matches, teams, rounds, casters }) {
         title: `${`${m.round.name} | ${m.blue.code}`}x${m.red.code}`,
       };
     });
-    // const teamOptions = matches.map((m) => {
-    //   return { id: m.id, title: m.name };
-    // });
-    // setSelectTeamsOptions(teamOptions);
     setSelectMatchesOptions(matchesOptions);
-    console.log(matches);
   }, []);
-
-  async function handleUpdateMatch(data) {
-    try {
-      await api.put(`match/${data.id}`, { ...data, is_bo5: checked });
-      toast.success('match editado');
-    } catch (err) {
-      toast.error('error');
-    }
-  }
 
   const handleToggleCaster = (event) => {
     setCastersChoices({
       ...castersChoices,
       [event.target.name]: event.target.checked,
     });
-    console.log(castersChoices);
   };
 
   const handleChangeMatch = (event) => {
     setCurrentMatch(event.target.value);
+  };
+
+  const handleBet = async () => {
+    const blueCasters = [];
+    const redCasters = [];
+    Object.entries(castersChoices).forEach((entry) => {
+      const [key, value] = entry;
+      if (value === true) {
+        blueCasters.push(key);
+      } else {
+        redCasters.push(key);
+      }
+    });
+
+    const {
+      blue: { id: blueId },
+      red: { id: redId },
+    } = matches.filter((m) => m.id === Number(currentMatch))[0];
+
+    for (let i = 0; i < blueCasters.length; i++) {
+      const casterId = blueCasters[i];
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await api.post(`casters/bet/${currentMatch}`, {
+          choice: blueId,
+          casterId,
+        });
+        toast.success('Aposta computada com sucesso');
+      } catch (err) {
+        toast.error('Error ao registrar aposta :(');
+      }
+    }
+
+    for (let i = 0; i < redCasters.length; i++) {
+      const casterId = redCasters[i];
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await api.post(`casters/bet/${currentMatch}`, {
+          choice: redId,
+          casterId,
+        });
+        toast.success('Aposta computada com sucesso');
+      } catch (err) {
+        toast.error('Error ao registrar aposta :(');
+      }
+    }
   };
 
   return (
@@ -90,6 +120,9 @@ function MatchesForms({ matches, teams, rounds, casters }) {
         onChange={handleChangeMatch}
       />
       <span>{currentMatch}</span>
+      <button type="button" onClick={handleBet}>
+        Bet
+      </button>
       <FormGroup row>
         {casters.map((caster) => (
           <FormControlLabel
