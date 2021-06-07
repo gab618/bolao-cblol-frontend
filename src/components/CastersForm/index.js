@@ -59,6 +59,16 @@ function MatchesForms({ matches, casters }) {
     setCastersChoices(newCastersChoices);
   };
 
+  const invertCastersChoices = () => {
+    const newCastersChoices = castersChoices;
+
+    Object.keys(newCastersChoices).forEach((key) => {
+      newCastersChoices[key] = !newCastersChoices[key];
+    });
+
+    setCastersChoices({ ...castersChoices, ...newCastersChoices });
+  };
+
   const handleToggleCaster = (event) => {
     setCastersChoices({
       ...castersChoices,
@@ -128,6 +138,9 @@ function MatchesForms({ matches, casters }) {
       <span>{currentMatch}</span>
       <button type="button" onClick={handleBet}>
         Bet
+      </button>
+      <button type="button" onClick={invertCastersChoices}>
+        Invert
       </button>
       <FormGroup row>
         {casters.map((caster) => (
