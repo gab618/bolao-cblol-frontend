@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Form, Input, Select } from '@rocketseat/unform';
+import { Select } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
 import {
   ExpansionPanel,
@@ -8,15 +7,11 @@ import {
   ExpansionPanelSummary,
   Typography,
   makeStyles,
-  MenuItem,
   FormGroup,
-  FormControl,
-  InputLabel,
   FormControlLabel,
   Switch,
 } from '@material-ui/core';
 import { MdExpandMore } from 'react-icons/md';
-import { blue } from '@material-ui/core/colors';
 import api from '../../services/api';
 
 // import { Container } from './styles';
@@ -54,6 +49,16 @@ function MatchesForms({ matches, casters }) {
     setSelectMatchesOptions(matchesOptions);
   }, []);
 
+  const uncheckAllCasters = () => {
+    const newCastersChoices = castersChoices;
+
+    Object.keys(newCastersChoices).forEach((key) => {
+      newCastersChoices[key] = false;
+    });
+
+    setCastersChoices(newCastersChoices);
+  };
+
   const handleToggleCaster = (event) => {
     setCastersChoices({
       ...castersChoices,
@@ -62,6 +67,7 @@ function MatchesForms({ matches, casters }) {
   };
 
   const handleChangeMatch = (event) => {
+    uncheckAllCasters();
     setCurrentMatch(event.target.value);
   };
 
