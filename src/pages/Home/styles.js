@@ -120,6 +120,7 @@ export const Team = styled.div`
   .img-container {
     display: block;
     height: ${(props) => (props.unique ? 128 : 64)}px;
+    width: ${(props) => (props.unique ? 128 : 64)}px;
     padding-bottom: 5px;
     border-bottom: 1px solid rgb(87, 95, 104);
 
