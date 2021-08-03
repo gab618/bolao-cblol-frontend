@@ -6,6 +6,7 @@ import { MdChevronLeft, MdChevronRight, MdStar } from 'react-icons/md';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Slider from '@material-ui/core/Slider';
 import api from '../../services/api';
 
 import { Container, Match, Team } from './styles';
@@ -13,6 +14,7 @@ import { Container, Match, Team } from './styles';
 export default function Home() {
   const [date, setDate] = useState(new Date());
   const [bets, setBets] = useState([]);
+  const [bo5Bets, setBo5Bets] = useState([]);
   const [round, setRound] = useState({});
   const [allRoundsDates, setAllRoundsDates] = useState([]);
 
@@ -20,6 +22,13 @@ export default function Home() {
     const responseBets = await api.get('bets');
     setBets(responseBets.data);
   }
+
+  async function loadBo5Bets() {
+    const responseBo5Bets = await api.get('bo5');
+    console.log(responseBo5Bets.data);
+    setBo5Bets(responseBo5Bets.data);
+  }
+
   useEffect(() => {
     async function loadAllRoundsDates() {
       const response = await api.get('rounds');
@@ -27,6 +36,7 @@ export default function Home() {
       setAllRoundsDates(dates);
     }
     loadBets();
+    loadBo5Bets();
     loadAllRoundsDates();
   }, []);
 
@@ -139,6 +149,15 @@ export default function Home() {
                     value={m.blue.id}
                     name="radio-button-demo"
                   />
+                  <Slider
+                    color="secondary"
+                    defaultValue={0}
+                    min={0}
+                    max={3}
+                    step={1}
+                    marks
+                    valueLabelDisplay="on"
+                  />
                 </Team>
                 X
                 <Team
@@ -161,6 +180,15 @@ export default function Home() {
                     onChange={() => handleChange(m.id, m.red.id)}
                     value={m.red.id}
                     name="radio-button-demo"
+                  />
+                  <Slider
+                    color="secondary"
+                    defaultValue={0}
+                    min={0}
+                    max={3}
+                    step={1}
+                    marks
+                    valueLabelDisplay="on"
                   />
                 </Team>
               </RadioGroup>
