@@ -6,6 +6,7 @@ import { MdChevronLeft, MdChevronRight, MdStar } from 'react-icons/md';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Slider from '@material-ui/core/Slider';
 import api from '../../services/api';
 
 import { Container, Match, Team } from './styles';
@@ -13,6 +14,7 @@ import { Container, Match, Team } from './styles';
 export default function Home() {
   const [date, setDate] = useState(new Date());
   const [bets, setBets] = useState([]);
+  const [bo5Bets, setBo5Bets] = useState([]);
   const [round, setRound] = useState({});
   const [allRoundsDates, setAllRoundsDates] = useState([]);
 
@@ -20,6 +22,12 @@ export default function Home() {
     const responseBets = await api.get('bets');
     setBets(responseBets.data);
   }
+
+  async function loadBo5Bets() {
+    const responseBo5Bets = await api.get('bo5');
+    setBo5Bets(responseBo5Bets.data);
+  }
+
   useEffect(() => {
     async function loadAllRoundsDates() {
       const response = await api.get('rounds');
@@ -27,6 +35,7 @@ export default function Home() {
       setAllRoundsDates(dates);
     }
     loadBets();
+    loadBo5Bets();
     loadAllRoundsDates();
   }, []);
 
@@ -55,7 +64,19 @@ export default function Home() {
           const start_hour = { start_hour: getHours(parseISO(m.start_time)) };
           const bet = bets.filter((b) => b.match_id === m.id);
           const choice = bet[0] ? bet[0].choice : null;
-          return Object.assign(m, start_hour, { choice }, { past });
+          const bo5bet = bo5Bets.filter((b) => b.match_id === m.id);
+          const redWins =
+            bo5bet.length > 0 && bo5bet[0] ? bo5bet[0].red_team_wins : null;
+          const blueWins =
+            bo5bet.length > 0 && bo5bet[0] ? bo5bet[0].blue_team_wins : null;
+          return Object.assign(
+            m,
+            start_hour,
+            { choice },
+            { past },
+            { redWins },
+            { blueWins }
+          );
         });
         setRound(
           Object.assign(responseSchedule.data, { Matches: formatedMatches })
@@ -64,7 +85,7 @@ export default function Home() {
       setRound(responseSchedule.data);
     }
     loadRound();
-  }, [date, bets]);
+  }, [date, bets, bo5Bets]);
 
   const dateFormatted = useMemo(
     () => format(date, "d 'de' MMMM", { locale: pt }),
@@ -83,6 +104,39 @@ export default function Home() {
     }
     bet();
   }
+
+  function handleSlide(match, team, value) {
+    async function bo5Bet() {
+      try {
+        let blueTeamWins = 0;
+        let redTeamWins = 0;
+        const bet = bo5Bets.filter((m) => m.match_id === match);
+
+        if (team === 'blue') {
+          blueTeamWins = value;
+          redTeamWins =
+            bet.length > 0 && bet[0].red_team_wins ? bet[0].red_team_wins : 0;
+        } else {
+          redTeamWins = value;
+          blueTeamWins =
+            bet.length > 0 && bet[0].blue_team_wins ? bet[0].blue_team_wins : 0;
+        }
+
+        const newBet = {
+          blueTeamWins,
+          redTeamWins,
+        };
+
+        await api.post(`bo5/${match}`, newBet);
+        await loadBo5Bets();
+        toast.success('Aposta computada com sucesso');
+      } catch (err) {
+        toast.error(`Error ao registrar aposta :( ${err}`);
+      }
+    }
+    bo5Bet();
+  }
+
   function handlePrevDay() {
     const index = allRoundsDates.indexOf(date);
     if (index !== 0) {
@@ -139,6 +193,20 @@ export default function Home() {
                     value={m.blue.id}
                     name="radio-button-demo"
                   />
+                  {!!(round.Matches.length === 1) && (
+                    <Slider
+                      color="secondary"
+                      defaultValue={m.blueWins}
+                      min={0}
+                      max={3}
+                      step={1}
+                      marks
+                      valueLabelDisplay="on"
+                      onChange={(event, newValue) => {
+                        handleSlide(m.id, 'blue', newValue);
+                      }}
+                    />
+                  )}
                 </Team>
                 X
                 <Team
@@ -162,6 +230,20 @@ export default function Home() {
                     value={m.red.id}
                     name="radio-button-demo"
                   />
+                  {!!(round.Matches.length === 1) && (
+                    <Slider
+                      color="secondary"
+                      defaultValue={m.redWins}
+                      min={0}
+                      max={3}
+                      step={1}
+                      marks
+                      valueLabelDisplay="on"
+                      onChange={(event, newValue) => {
+                        handleSlide(m.id, 'red', newValue);
+                      }}
+                    />
+                  )}
                 </Team>
               </RadioGroup>
             </Match>
