@@ -64,7 +64,7 @@ export const Match = styled.li`
   padding: 20px;
   background-color: #2c3036;
   color: #fff;
-  grid-column: ${(props) => (props.unique ? '1 / span 2' : '')};
+  grid-column: ${(props) => (props.unique ? '1 / span 3' : '')};
   opacity: ${(props) => (props.past ? 0.4 : 1)};
 
   strong {
